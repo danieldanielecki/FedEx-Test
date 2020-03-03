@@ -37,3 +37,15 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Others
+.config
+.env
+.npm
+.npm-global
+.vscode
+.ash_history
+.firebase
+firebase-debug.log
+/functions/dist
+/functions/index.js
