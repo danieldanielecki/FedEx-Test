@@ -45,6 +45,9 @@ Quality:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
+  paths:
+    - apps
+    - libs
   stage: test
   script:
     - npm run format:check:app-fedex
@@ -62,7 +65,7 @@ Unit:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   script:
-    - npm test:app-fedex
+    - npm run test:app-fedex
   stage: test
 
 E2E:
