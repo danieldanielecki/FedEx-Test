@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "projects": {
+    "app-fedex": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/app-fedex",
+      "sourceRoot": "apps/app-fedex/src",
+      "prefix": "fedex-test",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/app-fedex",
+            "index": "apps/app-fedex/src/index.html",
+            "main": "apps/app-fedex/src/main.ts",
+            "polyfills": "apps/app-fedex/src/polyfills.ts",
+            "tsConfig": "apps/app-fedex/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/app-fedex/src/favicon.ico",
+              "apps/app-fedex/src/assets"
+            ],
+            "styles": ["apps/app-fedex/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/app-fedex/src/environments/environment.ts",
+                  "with": "apps/app-fedex/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "app-fedex:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app-fedex:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "app-fedex:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/app-fedex/tsconfig.app.json",
+              "apps/app-fedex/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/app-fedex/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/app-fedex/jest.config.js",
+            "tsConfig": "apps/app-fedex/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/app-fedex/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "app-fedex-e2e": {
+      "root": "apps/app-fedex-e2e",
+      "sourceRoot": "apps/app-fedex-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/app-fedex-e2e/cypress.json",
+            "tsConfig": "apps/app-fedex-e2e/tsconfig.e2e.json",
+            "devServerTarget": "app-fedex:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "app-fedex:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/app-fedex-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/app-fedex-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "app-fedex"
+}

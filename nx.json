@@ -1,0 +1,22 @@
+{
+  "npmScope": "fedex-test",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "app-fedex": {
+      "tags": []
+    },
+    "app-fedex-e2e": {
+      "tags": [],
+      "implicitDependencies": ["app-fedex"]
+    }
+  }
+}
