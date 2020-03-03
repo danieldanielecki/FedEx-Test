@@ -1,0 +1,110 @@
+image: node:alpine
+
+variables:
+  npm_config_cache: '$CI_PROJECT_DIR/.npm'
+  CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
+
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules/
+
+before_script:
+  - npm ci
+
+stages:
+  - build
+  - test
+  - staging
+  - production
+
+Build:
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist/apps/app-fedex
+    when: always
+  script:
+    - npm run build:app-fedex
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
+  stage: build
+
+Vulnerabilities:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
+  stage: test
+  script:
+    - npx audit-ci --moderate # Prevent integration with moderate or higher vulnerabilities.
+
+Quality:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
+  stage: test
+  script:
+    - npm run format:check:app-fedex
+
+SAST:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
+  script:
+    - npm run lint:app-fedex
+  stage: test
+
+Unit:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
+  script:
+    - npm test:app-fedex
+  stage: test
+
+E2E:
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - dist/out-tsc/apps/zylab-workspace-e2e/**/*.mp4
+      - dist/out-tsc/apps/zylab-workspace-e2e/**/*.png
+    when: always
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  image: cypress/base:10
+  script:
+    - npm run e2e:app-fedex
+  stage: test
+
+Staging:
+  dependencies:
+    - Build
+  environment:
+    name: development
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  only:
+    - develop # Corresponding only to the development branch.
+  script:
+    - npm run deploy
+  stage: staging
+
+Production:
+  dependencies:
+    - Build
+  environment:
+    name: production
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  only:
+    - master # Corresponding only to the master branch.
+  script:
+    - npm run deploy
+  stage: production
+  when: manual # It'll be run only if will be manually accepted in the CI.

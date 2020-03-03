@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": "dist/apps/app-fedex",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
