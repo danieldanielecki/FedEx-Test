@@ -45,12 +45,9 @@ Quality:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
-  paths:
-    - apps
-    - libs
   stage: test
   script:
-    - npm run format:check:app-fedex
+    - npm run format:check
 
 SAST:
   except:
