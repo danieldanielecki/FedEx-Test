@@ -47,7 +47,7 @@ Quality:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   stage: test
   script:
-    - npm run format:check
+    - npm run format:check:app-fedex
 
 SAST:
   except:
@@ -69,8 +69,8 @@ E2E:
   artifacts:
     expire_in: 1 day
     paths:
-      - dist/out-tsc/apps/zylab-workspace-e2e/**/*.mp4
-      - dist/out-tsc/apps/zylab-workspace-e2e/**/*.png
+      - dist/out-tsc/apps/app-fedex-e2e/**/*.mp4
+      - dist/out-tsc/apps/app-fedex-e2e/**/*.png
     when: always
   except:
     variables:

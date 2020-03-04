@@ -20,7 +20,7 @@
     "affected": "nx affected",
     "format": "nx format:write",
     "format:write": "nx format:write",
-    "format:check": "nx format:check",
+    "format:check:app-fedex": "nx format:check --project=app-fedex",
     "update": "ng update @nrwl/workspace",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
