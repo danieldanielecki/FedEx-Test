@@ -2,3 +2,5 @@
 
 /dist
 /coverage
+# Exclude Cypress source which causes to fail this job on CI.
+/cache/Cypress
