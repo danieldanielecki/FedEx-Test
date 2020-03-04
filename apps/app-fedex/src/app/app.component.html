@@ -1,55 +1,97 @@
 <main>
   <!-- Card container that binds all together. -->
-  <mat-card class="mat-elevation-z24" fxFlex="50" fxFlex.md="80" fxFlex.lt-md="90" fxFlexOffset="25"
-    fxFlexOffset.md="10" fxFlexOffset.lt-md="5" role="region">
+  <mat-card
+    class="mat-elevation-z24"
+    fxFlex="50"
+    fxFlex.md="80"
+    fxFlex.lt-md="90"
+    fxFlexOffset="25"
+    fxFlexOffset.md="10"
+    fxFlexOffset.lt-md="5"
+    role="region"
+  >
     <!-- Title of the card. -->
-    <mat-card-title aria-label="This is a contact page to contact with us." aria-level="2" role="heading"
-      title="Contact">Register</mat-card-title>
+    <mat-card-title
+      aria-label="This is a contact page to contact with us."
+      aria-level="2"
+      role="heading"
+      title="Contact"
+      >Register</mat-card-title
+    >
     <!--/ Title of the card. -->
     <!-- Content of the card. -->
     <mat-card-content>
       <!-- Form. -->
-      <form [formGroup]="contactForm" (ngSubmit)="onSubmit(contactForm.value)" fxLayout="column"
-        fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
+      <form
+        [formGroup]="contactForm"
+        (ngSubmit)="onSubmit(contactForm.value)"
+        fxLayout="column"
+        fxLayoutAlign="space-between stretch"
+        fxLayoutGap="20px"
+      >
         <!-- First name input field. -->
         <mat-form-field>
-          <input matInput formControlName="formControlFirstName" name="formControlFirstName" required
-            aria-label="Here provide your first name." placeholder="Your first name" title="Your first name"
-            type="text" />
+          <input
+            matInput
+            formControlName="formControlFirstName"
+            name="formControlFirstName"
+            required
+            aria-label="Here provide your first name."
+            placeholder="Your first name"
+            title="Your first name"
+            type="text"
+          />
           <mat-hint>Write your first name.</mat-hint>
           <mat-error *ngIf="!contactForm.get('formControlFirstName').valid">
-            This is an <strong>invalid</strong> first
-            name.
+            This is an <strong>invalid</strong> first name.
           </mat-error>
         </mat-form-field>
         <!--/ First name input field. -->
         <!-- Last name input field. -->
         <mat-form-field>
-          <input matInput formControlName="formControlLastName" required aria-label="Here provide your last name."
-            placeholder="Your last name" title="Your last name" type="text" />
+          <input
+            matInput
+            formControlName="formControlLastName"
+            required
+            aria-label="Here provide your last name."
+            placeholder="Your last name"
+            title="Your last name"
+            type="text"
+          />
           <mat-hint>Write your last name.</mat-hint>
           <mat-error *ngIf="!contactForm.get('formControlLastName').valid">
-            This is an <strong>invalid</strong> last
-            name.
+            This is an <strong>invalid</strong> last name.
           </mat-error>
         </mat-form-field>
         <!--/ Last name input field. -->
         <!-- Email input field. -->
         <mat-form-field>
-          <input matInput formControlName="formControlEmail" required
-            aria-label="Here provide your valid email address." placeholder="Your email" title="Your email"
-            type="email" />
+          <input
+            matInput
+            formControlName="formControlEmail"
+            required
+            aria-label="Here provide your valid email address."
+            placeholder="Your email"
+            title="Your email"
+            type="email"
+          />
           <mat-hint>Provide valid email address.</mat-hint>
           <mat-error *ngIf="!contactForm.get('formControlEmail').valid">
-            This is an <strong>invalid</strong> email
-            address.
+            This is an <strong>invalid</strong> email address.
           </mat-error>
         </mat-form-field>
         <!--/ Email input field. -->
         <!-- Password input field. -->
         <mat-form-field>
-          <input matInput formControlName="formControlPassword" required aria-label="Here provide your password."
-            placeholder="Your password" title="Your password" type="password" />
+          <input
+            matInput
+            formControlName="formControlPassword"
+            required
+            aria-label="Here provide your password."
+            placeholder="Your password"
+            title="Your password"
+            type="password"
+          />
           <mat-hint>Provide your password.</mat-hint>
           <mat-error *ngIf="!contactForm.get('formControlPassword').valid">
             This is an <strong>invalid</strong>
@@ -59,16 +101,30 @@
         <!--/ Password input field. -->
         <!-- Confirm password input field. -->
         <mat-form-field>
-          <input matInput formControlName="formControlConfirmPassword" required aria-label="Here provide your password."
-            placeholder="Your password" title="Your password" type="password" />
+          <input
+            matInput
+            formControlName="formControlConfirmPassword"
+            required
+            aria-label="Here provide your password."
+            placeholder="Your password"
+            title="Your password"
+            type="password"
+          />
           <mat-hint>Confirm your password.</mat-hint>
-          <mat-error *ngIf="!contactForm.get('formControlConfirmPassword').valid">
+          <mat-error
+            *ngIf="!contactForm.get('formControlConfirmPassword').valid"
+          >
             This is an <strong>invalid</strong> password confirmation.
           </mat-error>
         </mat-form-field>
         <!--/ Confirm password input field. -->
-        <button mat-raised-button matTooltip="Send" color="primary" [disabled]="!contactForm.valid"
-          aria-label="Click here to register.">
+        <button
+          mat-raised-button
+          matTooltip="Send"
+          color="primary"
+          [disabled]="!contactForm.valid"
+          aria-label="Click here to register."
+        >
           Send
         </button>
       </form>
