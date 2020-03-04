@@ -1,107 +1,80 @@
-<header class="flex">
-  <img
-    alt="Nx logo"
-    width="75"
-    src="https://nx.dev/assets/images/nx-logo-white.svg"
-  />
-  <h1>Welcome to {{ title }}!</h1>
-</header>
 <main>
-  <h2>Resources &amp; Tools</h2>
-  <p>
-    Thank you for using and showing some ♥ for Nx.
-  </p>
-  <div class="flex github-star-container">
-    <a
-      href="https://github.com/nrwl/nx"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      If you like Nx, please give it a star:
-      <div class="github-star-badge">
-        <svg
-          class="material-icons"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path d="M0 0h24v24H0z" fill="none" />
-          <path
-            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-          />
-        </svg>
-        Star
-      </div>
-    </a>
-  </div>
-  <p>
-    Here are some links to help you get started.
-  </p>
-  <ul class="resources">
-    <li class="col-span-2">
-      <a
-        class="resource flex"
-        href="https://connect.nrwl.io/app/courses/nx-workspaces/intro"
-      >
-        Nx video course
-      </a>
-    </li>
-    <li class="col-span-2">
-      <a
-        class="resource flex"
-        href="https://nx.dev/angular/getting-started/what-is-nx"
-      >
-        Nx video tutorial
-      </a>
-    </li>
-    <li class="col-span-2">
-      <a
-        class="resource flex"
-        href="https://nx.dev/angular/tutorial/01-create-application"
-      >
-        Interactive tutorial
-      </a>
-    </li>
-    <li class="col-span-2">
-      <a class="resource flex" href="https://connect.nrwl.io/">
-        <img
-          height="36"
-          alt="Nrwl Connect"
-          src="https://connect.nrwl.io/assets/img/CONNECT_ColorIcon.png"
-        />
-        <span class="gutter-left">Nrwl Connect</span>
-      </a>
-    </li>
-  </ul>
-  <h2>Next Steps</h2>
-  <p>Here are some things you can do with Nx.</p>
-  <details open>
-    <summary>Add UI library</summary>
-    <pre>
-# Generate UI lib
-ng g @nrwl/angular:lib ui
-
-# Add a component
-ng g @nrwl/angular:component xyz --project ui</pre
-    >
-  </details>
-  <details>
-    <summary>View dependency graph</summary>
-    <pre>nx dep-graph</pre>
-  </details>
-  <details>
-    <summary>Run affected commands</summary>
-    <pre>
-# see what's been affected by changes
-ng affected:dep-graph
-
-# run tests for current changes
-ng affected:test
-
-# run e2e tests for current changes
-ng affected:e2e
-</pre
-    >
-  </details>
+  <!-- Card container that binds all together. -->
+  <mat-card class="mat-elevation-z24" fxFlex="50" fxFlex.md="80" fxFlex.lt-md="90" fxFlexOffset="25"
+    fxFlexOffset.md="10" fxFlexOffset.lt-md="5" role="region">
+    <!-- Title of the card. -->
+    <mat-card-title aria-label="This is a contact page to contact with us." aria-level="2" role="heading"
+      title="Contact">Register</mat-card-title>
+    <!--/ Title of the card. -->
+    <!-- Content of the card. -->
+    <mat-card-content>
+      <!-- Form. -->
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit(contactForm.value)" fxLayout="column"
+        fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
+        <!-- First name input field. -->
+        <mat-form-field>
+          <input matInput formControlName="formControlFirstName" name="formControlFirstName" required
+            aria-label="Here provide your first name." placeholder="Your first name" title="Your first name"
+            type="text" />
+          <mat-hint>Write your first name.</mat-hint>
+          <mat-error *ngIf="!contactForm.get('formControlFirstName').valid">
+            This is an <strong>invalid</strong> first
+            name.
+          </mat-error>
+        </mat-form-field>
+        <!--/ First name input field. -->
+        <!-- Last name input field. -->
+        <mat-form-field>
+          <input matInput formControlName="formControlLastName" required aria-label="Here provide your last name."
+            placeholder="Your last name" title="Your last name" type="text" />
+          <mat-hint>Write your last name.</mat-hint>
+          <mat-error *ngIf="!contactForm.get('formControlLastName').valid">
+            This is an <strong>invalid</strong> last
+            name.
+          </mat-error>
+        </mat-form-field>
+        <!--/ Last name input field. -->
+        <!-- Email input field. -->
+        <mat-form-field>
+          <input matInput formControlName="formControlEmail" required
+            aria-label="Here provide your valid email address." placeholder="Your email" title="Your email"
+            type="email" />
+          <mat-hint>Provide valid email address.</mat-hint>
+          <mat-error *ngIf="!contactForm.get('formControlEmail').valid">
+            This is an <strong>invalid</strong> email
+            address.
+          </mat-error>
+        </mat-form-field>
+        <!--/ Email input field. -->
+        <!-- Password input field. -->
+        <mat-form-field>
+          <input matInput formControlName="formControlPassword" required aria-label="Here provide your password."
+            placeholder="Your password" title="Your password" type="password" />
+          <mat-hint>Provide your password.</mat-hint>
+          <mat-error *ngIf="!contactForm.get('formControlPassword').valid">
+            This is an <strong>invalid</strong>
+            password.
+          </mat-error>
+        </mat-form-field>
+        <!--/ Password input field. -->
+        <!-- Confirm password input field. -->
+        <mat-form-field>
+          <input matInput formControlName="formControlConfirmPassword" required aria-label="Here provide your password."
+            placeholder="Your password" title="Your password" type="password" />
+          <mat-hint>Confirm your password.</mat-hint>
+          <mat-error *ngIf="!contactForm.get('formControlConfirmPassword').valid">
+            This is an <strong>invalid</strong> password confirmation.
+          </mat-error>
+        </mat-form-field>
+        <!--/ Confirm password input field. -->
+        <button mat-raised-button matTooltip="Send" color="primary" [disabled]="!contactForm.valid"
+          aria-label="Click here to register.">
+          Send
+        </button>
+      </form>
+      <!--/ Form. -->
+    </mat-card-content>
+    <!--/ Content of the card. -->
+  </mat-card>
+  <!--/ Card container that binds all together. -->
 </main>
