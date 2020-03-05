@@ -10,7 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorInterceptor } from './http-error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RegisterService } from './register.service';
 
+// TODO: Improve code coverage.
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -21,11 +26,20 @@ describe('AppComponent', () => {
       imports: [
         BrowserAnimationsModule,
         FormsModule,
+        HttpClientTestingModule,
         ReactiveFormsModule,
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule
+      ],
+      providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpErrorInterceptor,
+          multi: true
+        },
+        RegisterService
       ]
     }).compileComponents();
   }));
@@ -36,7 +50,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the app component', () => {
+  it('should create app component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -92,9 +106,9 @@ describe('AppComponent', () => {
     expect(confirmPasswordInput).toBeTruthy();
   });
 
-  it('should render button with "Send" text', () => {
+  it('should render button with "Register" text', () => {
     const compiled: any = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('button').textContent).toContain('Send');
+    expect(compiled.querySelector('button').textContent).toContain('Register');
   });
 
   it('should test contactForm validity', () => {

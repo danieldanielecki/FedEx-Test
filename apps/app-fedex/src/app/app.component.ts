@@ -3,8 +3,10 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl
+  AbstractControl,
+  FormGroupDirective
 } from '@angular/forms';
+import { RegisterService } from './register.service';
 
 @Component({
   selector: 'fedex-test-root',
@@ -15,9 +17,13 @@ export class AppComponent {
   /**
    * @constructor
    * @description Creates a new instance of this component.
-   * @param  {formBuilder} - an abstraction class object to create a form group control for the contact form.
+   * @param {FormBuilder} formBuilder - an abstraction class object to create a form group control for the contact form.
+   * @param {RegisterService} registerService - service to perform HTTP POST request.
    */
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private registerService: RegisterService
+  ) {}
 
   // Create contact form with all required validators.
   public contactForm: FormGroup = this.formBuilder.group({
@@ -27,7 +33,8 @@ export class AppComponent {
         Validators.maxLength(64),
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$'),
-        Validators.required
+        Validators.required,
+        control => this.checkFirstName(control, 'firstName')
       ])
     ],
     formControlLastName: [
@@ -36,7 +43,8 @@ export class AppComponent {
         Validators.maxLength(64),
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$'),
-        Validators.required
+        Validators.required,
+        control => this.checkLastName(control, 'lastName')
       ])
     ],
     formControlEmail: [
@@ -55,7 +63,9 @@ export class AppComponent {
         Validators.minLength(8),
         Validators.pattern('^(?=.*[a-z])(?=.*?[A-Z]).*$'),
         Validators.required,
-        control => this.validatePasswords(control, 'password1')
+        control => this.validatePasswords(control, 'password1'),
+        control => this.checkFirstName(control, 'firstName'),
+        control => this.checkLastName(control, 'lastName')
       ])
     ],
     formControlConfirmPassword: [
@@ -73,20 +83,22 @@ export class AppComponent {
   /**
    * @description Perform certain actions on button submit of the contact form.
    * @function onSubmit
-   * @param {any} formData - object with submitted contact form data.
+   * @param {FormGroupDirective} formDirective - object used to reset validators.
    * @returns {void}
    */
-  public onSubmit(formData: any): void {
-    console.log('form submitted...');
-    console.log('firstName: ', formData.formControlFirstName);
-    console.log('lastName: ', formData.formControlLastName);
-    console.log('email: ', formData.formControlEmail);
-    this.contactForm.reset(); // Reset form once user will click "Send".
+  public onSubmit(formDirective: FormGroupDirective): void {
+    // Prepare necessary ata for HTTP Post request.
+    const dataToBeSend = {
+      firstName: this.contactForm.get('formControlFirstName').value,
+      lastName: this.contactForm.get('formControlLastName').value,
+      email: this.contactForm.get('formControlEmail').value
+    };
 
-    // Reset styling for 'required' input fields.
-    Object.keys(this.contactForm.controls).forEach(key => {
-      this.contactForm.get(key).setErrors(null);
-    });
+    // Give a call to registerService to register user.
+    this.registerService.registerUser(dataToBeSend);
+
+    formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
+    this.contactForm.reset(); // Reset form once user will click "Register".
   }
 
   /**
@@ -96,7 +108,6 @@ export class AppComponent {
    * @param {String} name -
    * @returns {void}
    */
-  // TODO: Make out of this comparison to first/last name.
   private validatePasswords(control: AbstractControl, name: String) {
     if (
       this.contactForm === undefined ||
@@ -125,11 +136,84 @@ export class AppComponent {
       };
     }
   }
+
+  private checkFirstName(control: AbstractControl, name: String) {
+    if (
+      this.contactForm === undefined ||
+      this.firstName.value === '' ||
+      this.password1.value === '' ||
+      this.firstName.value === null ||
+      this.password1.value === null
+    ) {
+      return null;
+    } else if (this.password1.value.includes(this.firstName.value)) {
+      if (
+        name === 'formControlFirstName' &&
+        this.password1.hasError('firstNameInPassword')
+      ) {
+        this.firstName.setErrors(null);
+        this.password1.updateValueAndValidity();
+      } else if (
+        name === 'formControlPassword' &&
+        this.firstName.hasError('firstNameInPassword')
+      ) {
+        this.password1.setErrors(null);
+        this.firstName.updateValueAndValidity();
+      }
+
+      return {
+        firstNameInPassword: { value: 'First name in password' }
+      };
+    } else {
+      return null;
+    }
+  }
+
+  private checkLastName(control: AbstractControl, name: String) {
+    if (
+      this.contactForm === undefined ||
+      this.lastName.value === '' ||
+      this.password1.value === '' ||
+      this.lastName.value === null ||
+      this.password1.value === null
+    ) {
+      return null;
+    } else if (this.password1.value.includes(this.lastName.value)) {
+      if (
+        name === 'formControlLastName' &&
+        this.password1.hasError('lastNameInPassword')
+      ) {
+        this.lastName.setErrors(null);
+        this.password1.updateValueAndValidity();
+      } else if (
+        name === 'formControlPassword' &&
+        this.lastName.hasError('lastNameInPassword')
+      ) {
+        this.password1.setErrors(null);
+        this.lastName.updateValueAndValidity();
+      }
+
+      return {
+        lastNameInPassword: { value: 'Last name in password' }
+      };
+    } else {
+      return null;
+    }
+  }
+
   get password1(): AbstractControl {
     return this.contactForm.get('formControlPassword');
   }
 
   get password2(): AbstractControl {
     return this.contactForm.get('formControlConfirmPassword');
+  }
+
+  get firstName(): AbstractControl {
+    return this.contactForm.get('formControlFirstName');
+  }
+
+  get lastName(): AbstractControl {
+    return this.contactForm.get('formControlLastName');
   }
 }

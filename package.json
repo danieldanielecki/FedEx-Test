@@ -7,7 +7,7 @@
     "nx": "nx",
     "start": "ng serve --host 0.0.0.0 --poll 1",
     "build:app-fedex": "ng build --prod --project=app-fedex",
-    "test:app-fedex": "ng test --project=app-fedex --coverage",
+    "test:app-fedex": "ng test --project=app-fedex --code-coverage",
     "lint:app-fedex": "nx workspace-lint && ng lint --project=app-fedex",
     "e2e:app-fedex": "ng e2e",
     "affected:apps": "nx affected:apps",

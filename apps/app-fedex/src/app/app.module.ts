@@ -9,10 +9,14 @@ import {
 } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RegisterService } from './register.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
     BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
@@ -29,7 +34,10 @@ import { MatInputModule } from '@angular/material/input';
   ],
   providers: [
     // Display errors instantly.
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    // HTTP Interceptors.
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    RegisterService
   ],
   bootstrap: [AppComponent]
 })
