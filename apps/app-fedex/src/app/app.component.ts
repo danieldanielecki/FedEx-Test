@@ -7,6 +7,7 @@ import {
   FormGroupDirective
 } from '@angular/forms';
 import { RegisterService } from './register.service';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'fedex-test-root',
@@ -22,7 +23,8 @@ export class AppComponent {
    */
   constructor(
     private formBuilder: FormBuilder,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private recaptchaV3Service: ReCaptchaV3Service
   ) {}
 
   // Create contact form with all required validators.
@@ -87,18 +89,21 @@ export class AppComponent {
    * @returns {void}
    */
   public onSubmit(formDirective: FormGroupDirective): void {
-    // Prepare necessary ata for HTTP Post request.
-    const dataToBeSend = {
-      firstName: this.contactForm.get('formControlFirstName').value,
-      lastName: this.contactForm.get('formControlLastName').value,
-      email: this.contactForm.get('formControlEmail').value
-    };
+    // Execute invisible reCAPTCHA if the traffic is suspicious.
+    this.recaptchaV3Service.execute('onSubmit').subscribe(() => {
+      // Prepare necessary data for HTTP Post request.
+      const dataToBeSend = {
+        firstName: this.contactForm.get('formControlFirstName').value,
+        lastName: this.contactForm.get('formControlLastName').value,
+        email: this.contactForm.get('formControlEmail').value
+      };
 
-    // Give a call to registerService to register user.
-    this.registerService.registerUser(dataToBeSend);
+      // Give a call to registerService to register user.
+      this.registerService.registerUser(dataToBeSend);
 
-    formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
-    this.contactForm.reset(); // Reset form once user will click "Register".
+      formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
+      this.contactForm.reset(); // Reset form once user will click "Register".
+    });
   }
 
   /**

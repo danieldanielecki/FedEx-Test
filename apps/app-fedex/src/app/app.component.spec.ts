@@ -14,6 +14,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterService } from './register.service';
+import {
+  RecaptchaFormsModule,
+  RecaptchaV3Module,
+  RECAPTCHA_V3_SITE_KEY
+} from 'ng-recaptcha';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 // TODO: Improve code coverage.
 describe('AppComponent', () => {
@@ -31,7 +37,9 @@ describe('AppComponent', () => {
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        RecaptchaFormsModule,
+        RecaptchaV3Module
       ],
       providers: [
         {
@@ -39,7 +47,12 @@ describe('AppComponent', () => {
           useClass: HttpErrorInterceptor,
           multi: true
         },
-        RegisterService
+        {
+          provide: RECAPTCHA_V3_SITE_KEY,
+          useValue: 'faker_eCAPTCHA_site_key_123'
+        },
+        RegisterService,
+        ReCaptchaV3Service
       ]
     }).compileComponents();
   }));
