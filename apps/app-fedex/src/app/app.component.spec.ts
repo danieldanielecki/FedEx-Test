@@ -4,13 +4,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   FormsModule,
   ReactiveFormsModule,
-  AbstractControl
+  AbstractControl,
+  FormGroupDirective,
+  FormGroup,
+  FormControlDirective,
+  ControlContainer
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterService } from './register.service';
@@ -21,10 +28,14 @@ import {
 } from 'ng-recaptcha';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 
-// TODO: Improve code coverage.
 describe('AppComponent', () => {
+  // TODO: Move all variables here.
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  const formGroupDirective: FormGroupDirective = new FormGroupDirective([], []);
+  let httpTestingController: HttpTestingController;
+  //let reCaptchaV3Service: ReCaptchaV3Service;
+  let registerService: RegisterService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -51,6 +62,8 @@ describe('AppComponent', () => {
           provide: RECAPTCHA_V3_SITE_KEY,
           useValue: 'faker_eCAPTCHA_site_key_123'
         },
+        { provide: ControlContainer, useValue: formGroupDirective },
+        FormGroupDirective,
         RegisterService,
         ReCaptchaV3Service
       ]
@@ -60,10 +73,12 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.debugElement.componentInstance;
+    httpTestingController = TestBed.inject(HttpTestingController);
+    registerService = TestBed.inject(RegisterService);
     fixture.detectChanges();
   });
 
-  it('should create app component', () => {
+  it('should create AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
@@ -295,7 +310,7 @@ describe('AppComponent', () => {
     expect(confirmPasswordInput.valid).toBeFalsy();
   });
 
-  it('should test first name error', () => {
+  it('should show first name error', () => {
     const firstNameInput: AbstractControl =
       component.contactForm.controls.formControlFirstName;
     expect(firstNameInput.errors.required).toBeTruthy();
@@ -327,7 +342,7 @@ describe('AppComponent', () => {
     expect(firstNameInput.errors).toBeTruthy();
   });
 
-  it('should test last name error', () => {
+  it('should show last name error', () => {
     const lastNameInput: AbstractControl =
       component.contactForm.controls.formControlLastName;
     expect(lastNameInput.errors.required).toBeTruthy();
@@ -359,7 +374,7 @@ describe('AppComponent', () => {
     expect(lastNameInput.errors).toBeTruthy();
   });
 
-  it('should test email error', () => {
+  it('should show email error', () => {
     const emailInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
     expect(emailInput.errors.required).toBeTruthy();
@@ -382,7 +397,7 @@ describe('AppComponent', () => {
     expect(emailInput.errors).toBeTruthy();
   });
 
-  it('should test password error', () => {
+  it('should show password error', () => {
     const passwordInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
     expect(passwordInput.errors.required).toBeTruthy();
@@ -408,7 +423,7 @@ describe('AppComponent', () => {
     expect(passwordInput.errors).toBeTruthy();
   });
 
-  it('should test confirm password error', () => {
+  it('should show confirm password error', () => {
     const confirmPasswordInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
     expect(confirmPasswordInput.errors.required).toBeTruthy();
@@ -434,19 +449,7 @@ describe('AppComponent', () => {
     expect(confirmPasswordInput.errors).toBeTruthy();
   });
 
-  it('should test password matching', () => {
-    const firstNameInput: AbstractControl =
-      component.contactForm.controls.formControlFirstName;
-    firstNameInput.setValue('Daniel');
-
-    const lastNameInput: AbstractControl =
-      component.contactForm.controls.formControlLastName;
-    lastNameInput.setValue('Danielecki');
-
-    const emailInput: AbstractControl =
-      component.contactForm.controls.formControlEmail;
-    emailInput.setValue('daniel.danielecki@foo.com');
-
+  it('should match password and confirm password', () => {
     const passwordInput: AbstractControl =
       component.contactForm.controls.formControlPassword;
     passwordInput.setValue('Password');
@@ -457,5 +460,102 @@ describe('AppComponent', () => {
 
     expect(passwordInput.errors).toBeNull();
     expect(confirmPasswordInput.errors).toBeNull();
+
+    passwordInput.setValue('Password');
+    confirmPasswordInput.setValue('Nodsassword');
+
+    expect(confirmPasswordInput.errors.passwordMismatch).toBeTruthy();
+  });
+
+  it('should show error on first name in password', () => {
+    const firstNameInput: AbstractControl =
+      component.contactForm.controls.formControlFirstName;
+    firstNameInput.setValue('Daniel');
+
+    const passwordInput: AbstractControl =
+      component.contactForm.controls.formControlPassword;
+    passwordInput.setValue('Danielecki');
+
+    expect(passwordInput.errors.firstNameInPassword).toBeTruthy();
+  });
+
+  it('should show error on last name in password', () => {
+    const firstNameInput: AbstractControl =
+      component.contactForm.controls.formControlLastName;
+    firstNameInput.setValue('Danielecki');
+
+    const passwordInput: AbstractControl =
+      component.contactForm.controls.formControlPassword;
+    passwordInput.setValue('dDanielecki');
+
+    expect(passwordInput.errors.lastNameInPassword).toBeTruthy();
+  });
+
+  it('should test empty inputs to throw required errors', () => {
+    const contactForm = component.contactForm;
+    expect(contactForm.valid).toBeFalsy();
+
+    const firstNameInput: AbstractControl =
+      contactForm.controls.formControlFirstName;
+    firstNameInput.setValue('');
+    expect(firstNameInput.errors.required).toBeTruthy();
+
+    const lastNameInput: AbstractControl =
+      contactForm.controls.formControlLastName;
+    lastNameInput.setValue('');
+    expect(lastNameInput.errors.required).toBeTruthy();
+
+    const emailInput: AbstractControl = contactForm.controls.formControlEmail;
+    emailInput.setValue('');
+    expect(emailInput.errors.required).toBeTruthy();
+
+    const passwordInput: AbstractControl =
+      contactForm.controls.formControlPassword;
+    passwordInput.setValue('');
+    expect(passwordInput.errors.required).toBeTruthy();
+
+    const confirmPasswordInput: AbstractControl =
+      contactForm.controls.formControlConfirmPassword;
+    confirmPasswordInput.setValue('');
+    expect(confirmPasswordInput.errors.required).toBeTruthy();
+
+    expect(contactForm.valid).toBeFalsy();
+  });
+
+  it('should reset contact form and call "Success" alert on form submit', async () => {
+    const baseURL = 'https://demo-api.now.sh/users';
+    const fakeDataToBeSend = {
+      firstName: 'Daniel',
+      lastName: 'Danielecki',
+      email: 'daniel.danielecki@foo.com'
+    };
+    const contactForm = component.contactForm;
+
+    jest.spyOn(window, 'alert').mockImplementation(() => {}); // Note: window.alert = jest.fn() works too, but it contaminates other tests, therefore try to avoid it.
+    // TODO: Fix reCAPTCHA and make tests for it.
+
+    component.onSubmit(formGroupDirective);
+    // reCaptchaV3Service.onExecute
+    // await reCaptchaV3Service.execute('test').subscribe(token => {
+    //   console.log(token);
+    // });
+    // reCaptchaV3Service
+    //   .execute('onSubmit')
+    //   .subscribe(token => console.log(token));
+
+    await registerService
+      .registerUser(fakeDataToBeSend, baseURL)
+      .subscribe(() => {
+        httpTestingController.expectOne({
+          method: 'POST',
+          url: baseURL
+        });
+        expect(window.alert).toHaveBeenCalledWith('Success.');
+
+        //formGroupDirective.resetForm();
+        contactForm.reset();
+      });
+
+    //expect(formGroupDirective.submitted).toBeTruthy();
   });
 });

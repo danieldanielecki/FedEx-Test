@@ -5,10 +5,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-// TODO: Unit test subscribe if it'll stay.
 describe('RegisterService', () => {
+  let httpTestingController: HttpTestingController;
   let registerService: any;
-  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -18,26 +17,32 @@ describe('RegisterService', () => {
   });
 
   beforeEach(() => {
-    httpMock = TestBed.inject(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
     registerService = TestBed.inject(RegisterService);
   });
 
-  it('should created register service', () => {
+  // After every test, assert that there are no more pending requests.
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should create RegisterService', () => {
     expect(registerService).toBeTruthy();
   });
 
-  it('should fake call HTTP POST request to https://demo-api.now.sh/users', () => {
+  it('should call HTTP POST request to https://demo-api.now.sh/users', async () => {
+    const baseURL = 'https://demo-api.now.sh/users';
     const fakeDataToBeSend = {
       firstName: 'Daniel',
       lastName: 'Danielecki',
       email: 'daniel.danielecki@foo.com'
     };
 
-    registerService.registerUser(fakeDataToBeSend);
+    await registerService.registerUser(fakeDataToBeSend, baseURL).subscribe();
 
-    httpMock.expectOne({
-      url: 'https://demo-api.now.sh/users',
-      method: 'POST'
+    httpTestingController.expectOne({
+      method: 'POST',
+      url: baseURL
     });
   });
 });

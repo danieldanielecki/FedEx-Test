@@ -97,9 +97,15 @@ export class AppComponent {
         lastName: this.contactForm.get('formControlLastName').value,
         email: this.contactForm.get('formControlEmail').value
       };
+      const baseURL = 'https://demo-api.now.sh/users';
 
       // Give a call to registerService to register user.
-      this.registerService.registerUser(dataToBeSend);
+      this.registerService
+        .registerUser(dataToBeSend, baseURL)
+        .subscribe(token => {
+          console.log(token);
+          alert('Success');
+        });
 
       formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
       this.contactForm.reset(); // Reset form once user will click "Register".

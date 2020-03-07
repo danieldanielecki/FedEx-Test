@@ -11,12 +11,8 @@ export class RegisterService {
    * @param {Object} dataToBeSend - data to be send to the API.
    * @returns {void}
    */
-  public registerUser(dataToBeSend: Object): any {
-    const baseURL = 'https://demo-api.now.sh/users';
-
+  public registerUser(dataToBeSend: Object, baseURL: string): any {
     // Perform HTTP POST request, error handling is done by HTTP Interceptors.
-    this.httpClient
-      .post(baseURL, JSON.stringify(dataToBeSend))
-      .subscribe(() => alert('Success'));
+    return this.httpClient.post(baseURL, JSON.stringify(dataToBeSend));
   }
 }
