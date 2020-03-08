@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,6 +6,7 @@ import {
   FormGroupDirective
 } from '@angular/forms';
 import { RegisterService } from './register.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'fedex-test-root',
@@ -16,7 +17,7 @@ import { RegisterService } from './register.service';
 /**
  * @class
  */
-export class AppComponent {
+export class AppComponent implements OnInit {
   /**
    * @constructs
    * @description Creates a new instance of this component.
@@ -113,7 +114,7 @@ export class AppComponent {
     };
     // Give a call to registerService to register user.
     this.registerService.registerUser(dataToBeSend, baseURL).subscribe(() => {
-      alert('Success');
+      Swal.fire('Success', 'You have successfuly registered!', 'success');
     });
 
     formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).

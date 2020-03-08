@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterService } from './register.service';
+import Swal from 'sweetalert2';
 
 describe('HttpErrorInterceptor', () => {
   let httpErrorInterceptor: HttpErrorInterceptor;
@@ -56,15 +57,11 @@ describe('HttpErrorInterceptor', () => {
 
     httpTestingController
       .expectOne(fakeURL)
-      .error(new ErrorEvent('Network error.')); //Error type instance can't be passed.
-
-    expect(window.alert).toHaveBeenCalledWith('Network error.');
+      .error(new ErrorEvent('Network error')); //Error type instance can't be passed.
 
     // This will pass when changing "ErrorEvent" to "Error" in "http-error.interceptor.ts", but will cause the upper one to fail. Depending by scenario, only one of the if/else conditions is covered as explained on Stack Overflow (https://stackoverflow.com/questions/60578944/angular-unit-testing-http-error-interceptors-catcherror-errorevent-error). Might be related to #18345 (// https://github.com/angular/angular/issues/18345).
     // httpTestingController
     //   .expectOne(fakeURL)
     //   .error(new ErrorEvent('Server unavailable.')); //Error type instance can't be passed.
-
-    // expect(window.alert).toHaveBeenCalledWith('Server unavailable.');
   });
 });
