@@ -33,7 +33,9 @@ import { environment } from '../environments/environment';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   providers: [
     // Display errors instantly.
