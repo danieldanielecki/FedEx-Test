@@ -60,13 +60,6 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render component title with "Register" text', () => {
-    const compiled: any = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('mat-card-title').textContent).toContain(
-      'Register'
-    );
-  });
-
   it('should have form', () => {
     const compiled: any = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('form')).toBeTruthy();
