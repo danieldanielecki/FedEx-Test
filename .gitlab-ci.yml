@@ -39,7 +39,7 @@ Vulnerabilities:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   stage: test
   script:
-    - npx audit-ci --moderate # Prevent integration with moderate or higher vulnerabilities.
+    - npx audit-ci --high # Prevent integration with high or higher vulnerabilities.
 
 Quality:
   except:
