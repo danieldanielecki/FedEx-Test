@@ -17,11 +17,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RegisterService } from './register.service';
-import {
-  RecaptchaFormsModule,
-  RecaptchaV3Module,
-  RECAPTCHA_V3_SITE_KEY
-} from 'ng-recaptcha';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,20 +30,13 @@ import {
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule,
-    RecaptchaV3Module,
-    RecaptchaFormsModule
+    MatInputModule
   ],
   providers: [
     // Display errors instantly.
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     // HTTP Interceptors.
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    // reCAPTCHA settings.
-    {
-      provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: String(process.env.RECAPTCHA_SITE_KEY)
-    },
     RegisterService
   ],
   bootstrap: [AppComponent]

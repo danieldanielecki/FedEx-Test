@@ -3,228 +3,255 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl,
   FormGroupDirective
 } from '@angular/forms';
 import { RegisterService } from './register.service';
-import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'fedex-test-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
+/**
+ * @class
+ */
 export class AppComponent {
   /**
-   * @constructor
+   * @constructs
    * @description Creates a new instance of this component.
    * @param {FormBuilder} formBuilder - an abstraction class object to create a form group control for the contact form.
    * @param {RegisterService} registerService - service to perform HTTP POST request.
    */
   constructor(
     private formBuilder: FormBuilder,
-    private registerService: RegisterService,
-    private recaptchaV3Service: ReCaptchaV3Service
+    private registerService: RegisterService
   ) {}
 
-  // Create contact form with all required validators.
-  public contactForm: FormGroup = this.formBuilder.group({
-    formControlFirstName: [
-      '',
-      Validators.compose([
-        Validators.maxLength(64),
-        Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z ]*$'),
-        Validators.required,
-        control => this.checkFirstName(control, 'firstName')
-      ])
-    ],
-    formControlLastName: [
-      '',
-      Validators.compose([
-        Validators.maxLength(64),
-        Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z ]*$'),
-        Validators.required,
-        control => this.checkLastName(control, 'lastName')
-      ])
-    ],
-    formControlEmail: [
-      '',
-      Validators.compose([
-        Validators.email,
-        Validators.maxLength(64),
-        Validators.minLength(6),
-        Validators.required
-      ])
-    ],
-    formControlPassword: [
-      '',
-      Validators.compose([
-        Validators.maxLength(64),
-        Validators.minLength(8),
-        Validators.pattern('^(?=.*[a-z])(?=.*?[A-Z]).*$'),
-        Validators.required,
-        control => this.validatePasswords(control, 'password1'),
-        control => this.checkFirstName(control, 'firstName'),
-        control => this.checkLastName(control, 'lastName')
-      ])
-    ],
-    formControlConfirmPassword: [
-      '',
-      Validators.compose([
-        Validators.maxLength(64),
-        Validators.minLength(8),
-        Validators.pattern('^(?=.*[a-z])(?=.*?[A-Z]).*$'),
-        Validators.required,
-        control => this.validatePasswords(control, 'password1')
-      ])
-    ]
-  });
+  public contactForm: FormGroup; // Declare variable to handle the form elements with required validators.
+
+  ngOnInit() {
+    // Create contact form with all required validators.
+    this.contactForm = this.formBuilder.group(
+      {
+        formControlFirstName: [
+          '',
+          Validators.compose([
+            Validators.maxLength(64),
+            Validators.minLength(2),
+            Validators.pattern('^[a-zA-Z ]*$'),
+            Validators.required
+          ])
+        ],
+        formControlLastName: [
+          '',
+          Validators.compose([
+            Validators.maxLength(64),
+            Validators.minLength(2),
+            Validators.pattern('^[a-zA-Z ]*$'),
+            Validators.required
+          ])
+        ],
+        formControlEmail: [
+          '',
+          Validators.compose([
+            Validators.email,
+            Validators.maxLength(64),
+            Validators.minLength(6),
+            Validators.required
+          ])
+        ],
+        formControlPassword: [
+          '',
+          Validators.compose([
+            Validators.maxLength(64),
+            Validators.minLength(8),
+            Validators.pattern('^(?=.*[a-z])(?=.*?[A-Z]).*$'),
+            Validators.required
+          ])
+        ],
+        formControlConfirmPassword: [
+          '',
+          Validators.compose([
+            Validators.maxLength(64),
+            Validators.minLength(8),
+            Validators.pattern('^(?=.*[a-z])(?=.*?[A-Z]).*$'),
+            Validators.required
+          ])
+        ]
+      },
+      {
+        validator: [
+          this.validatePasswords(
+            'formControlPassword',
+            'formControlConfirmPassword'
+          ),
+          this.validateNamesInPasswords(
+            'formControlFirstName',
+            'formControlLastName',
+            'formControlPassword'
+          )
+        ]
+      }
+    );
+  }
 
   /**
+   * @access public
+   * @async
    * @description Perform certain actions on button submit of the contact form.
    * @function onSubmit
    * @param {FormGroupDirective} formDirective - object used to reset validators.
    * @returns {void}
    */
   public onSubmit(formDirective: FormGroupDirective): void {
-    // Execute invisible reCAPTCHA if the traffic is suspicious.
-    this.recaptchaV3Service.execute('onSubmit').subscribe(() => {
-      // Prepare necessary data for HTTP Post request.
-      const dataToBeSend = {
-        firstName: this.contactForm.get('formControlFirstName').value,
-        lastName: this.contactForm.get('formControlLastName').value,
-        email: this.contactForm.get('formControlEmail').value
-      };
-      const baseURL = 'https://demo-api.now.sh/users';
-
-      // Give a call to registerService to register user.
-      this.registerService
-        .registerUser(dataToBeSend, baseURL)
-        .subscribe(token => {
-          console.log(token);
-          alert('Success');
-        });
-
-      formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
-      this.contactForm.reset(); // Reset form once user will click "Register".
+    const baseURL = 'https://demo-api.now.sh/users';
+    const dataToBeSend = {
+      firstName: this.contactForm.get('formControlFirstName').value,
+      lastName: this.contactForm.get('formControlLastName').value,
+      email: this.contactForm.get('formControlEmail').value
+    };
+    // Give a call to registerService to register user.
+    this.registerService.registerUser(dataToBeSend, baseURL).subscribe(() => {
+      alert('Success');
     });
+
+    formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
+    this.contactForm.reset(); // Reset form once user will click "Register".
   }
 
   /**
-   * @description Perform certain behaviours on button submit of the contact form.
+   * @access private
+   * @description Validate if passwords are different.
    * @function validatePasswords
-   * @param {AbstractControl} control - object of submitted contact form.
-   * @param {String} name -
-   * @returns {void}
+   * @param {string} passwordControlName - reference to formControlPassword of the contactForm.
+   * @param {string} confirmPasswordControlName - reference to formControlConfirmPassword of the contactForm.
+   * @returns {(formGroup: FormGroup) => void}
    */
-  private validatePasswords(control: AbstractControl, name: String) {
-    if (
-      this.contactForm === undefined ||
-      this.password1.value === '' ||
-      this.password2.value === ''
-    ) {
-      return null;
-    } else if (this.password1.value === this.password2.value) {
-      if (
-        name === 'formControlPassword' &&
-        this.password2.hasError('passwordMismatch')
-      ) {
-        this.password1.setErrors(null);
-        this.password2.updateValueAndValidity();
-      } else if (
-        name === 'formControlConfirmPassword' &&
-        this.password1.hasError('passwordMismatch')
-      ) {
-        this.password2.setErrors(null);
-        this.password1.updateValueAndValidity();
-      }
-      return null;
-    } else {
-      return {
-        passwordMismatch: { value: 'The provided passwords do not match' }
-      };
-    }
-  }
 
-  private checkFirstName(control: AbstractControl, name: String) {
-    if (
-      this.contactForm === undefined ||
-      this.firstName.value === '' ||
-      this.password1.value === '' ||
-      this.firstName.value === null ||
-      this.password1.value === null
-    ) {
-      return null;
-    } else if (this.password1.value.includes(this.firstName.value)) {
+  private validatePasswords(
+    passwordControlName: string,
+    confirmPasswordControlName: string
+  ): (formGroup: FormGroup) => void {
+    return (formGroup: FormGroup) => {
+      // Get values of desired controls of the form.
+      const passwordControl = formGroup.controls[passwordControlName];
+      const confirmPasswordControl =
+        formGroup.controls[confirmPasswordControlName];
+
       if (
-        name === 'formControlFirstName' &&
-        this.password1.hasError('firstNameInPassword')
+        // Don't show the error if any different error occured in password confirmation.
+        confirmPasswordControl.errors &&
+        !confirmPasswordControl.errors.passwordMismatch
       ) {
-        this.firstName.setErrors(null);
-        this.password1.updateValueAndValidity();
-      } else if (
-        name === 'formControlPassword' &&
-        this.firstName.hasError('firstNameInPassword')
-      ) {
-        this.password1.setErrors(null);
-        this.firstName.updateValueAndValidity();
+        return; // Different validator shown an error, therefore return.
       }
 
-      return {
-        firstNameInPassword: { value: 'First name in password' }
-      };
-    } else {
-      return null;
-    }
-  }
-
-  private checkLastName(control: AbstractControl, name: String) {
-    if (
-      this.contactForm === undefined ||
-      this.lastName.value === '' ||
-      this.password1.value === '' ||
-      this.lastName.value === null ||
-      this.password1.value === null
-    ) {
-      return null;
-    } else if (this.password1.value.includes(this.lastName.value)) {
-      if (
-        name === 'formControlLastName' &&
-        this.password1.hasError('lastNameInPassword')
-      ) {
-        this.lastName.setErrors(null);
-        this.password1.updateValueAndValidity();
-      } else if (
-        name === 'formControlPassword' &&
-        this.lastName.hasError('lastNameInPassword')
-      ) {
-        this.password1.setErrors(null);
-        this.lastName.updateValueAndValidity();
+      // Check if password and password confirmation are different.
+      if (passwordControl.value !== confirmPasswordControl.value) {
+        confirmPasswordControl.setErrors({ passwordMismatch: true }); // Password and confirm password are different, therefore show passwordMismatch error.
+      } else {
+        confirmPasswordControl.setErrors(null); // Password and confirm password are the same, therefore don't display any error.
       }
+    };
+  }
 
-      return {
-        lastNameInPassword: { value: 'Last name in password' }
+  /**
+   * @access private
+   * @description Validate if first or last name are included in password or password confirmation.
+   * @function validateNamesInPasswords
+   * @param {string} firstNameControName - reference to formControlFirstName of the contactForm.
+   * @param {string} lastNameControName - reference to formControlLastName of the contactForm.
+   * @param {string} passwordControlName - reference to formControlPassword of the contactForm.
+   * @param {string} confirmPasswordControlName - reference to formControlConfirmPassword of the contactForm.
+   * @returns {(formGroup: FormGroup) => void}
+   */
+  private validateNamesInPasswords(
+    firstNameControName: string,
+    lastNameControName: string,
+    passwordControlName: string
+  ): (formGroup: FormGroup) => void {
+    {
+      return (formGroup: FormGroup) => {
+        // Get values of desired controls of the form.
+        const firstNameControl = formGroup.controls[firstNameControName];
+        const lastNameControl = formGroup.controls[lastNameControName];
+        const passwordControl = formGroup.controls[passwordControlName];
+
+        if (
+          // Don't show the error if any different error occured in password.
+          passwordControl.errors &&
+          !passwordControl.errors.namesInPassword
+        ) {
+          return; // Different validator shown an error, therefore return.
+        }
+
+        // Cases with catching empty first and/or last name and comparing it to password are below in the if/else blocks.
+        if (firstNameControl.value === '' && lastNameControl.value === '') {
+          passwordControl.setErrors(null); // For empty values of first and last name don't show any error.
+        }
+        // Only first name has a value.
+        else if (
+          firstNameControl.value !== '' &&
+          lastNameControl.value === ''
+        ) {
+          // Check if first name contains password.
+          if (
+            passwordControl.value
+              .toLowerCase()
+              .includes(firstNameControl.value.toLowerCase())
+          ) {
+            passwordControl.setErrors({ namesInPassword: true }); // First name contains password, therefore show namesInPassword error.
+          }
+          // All other cases when only first name has a value.
+          else {
+            passwordControl.setErrors(null); // First name doesn't contains password, therefore don't show any error.
+          }
+        }
+        // Only last name has a value.
+        else if (
+          firstNameControl.value === '' &&
+          lastNameControl.value !== ''
+        ) {
+          // Check if last name contains password.
+          if (
+            passwordControl.value
+              .toLowerCase()
+              .includes(lastNameControl.value.toLowerCase())
+          ) {
+            passwordControl.setErrors({ namesInPassword: true }); // Last name contains password, therefore show namesInPassword error.
+          }
+          // All other cases when only last name has a value.
+          else {
+            passwordControl.setErrors(null); // Last name doesn't contains password, therefore don't show any error.
+          }
+        }
+        // First and last name have values.
+        else if (
+          firstNameControl.value !== '' &&
+          lastNameControl.value !== ''
+        ) {
+          // Check if first or last name contains password.
+          if (
+            passwordControl.value
+              .toLowerCase()
+              .includes(firstNameControl.value.toLowerCase()) ||
+            passwordControl.value
+              .toLowerCase()
+              .includes(lastNameControl.value.toLowerCase())
+          ) {
+            passwordControl.setErrors({ namesInPassword: true }); // First or last name contains password, therefore show namesInPassword error.
+          }
+          // All other cases when first and last name have values.
+          else {
+            passwordControl.setErrors(null); // First or last name don't contain password, therefore don't show any error.
+          }
+        }
+        // All other cases.
+        else {
+          passwordControl.setErrors(null); // By default don't show any error.
+        }
       };
-    } else {
-      return null;
     }
-  }
-
-  get password1(): AbstractControl {
-    return this.contactForm.get('formControlPassword');
-  }
-
-  get password2(): AbstractControl {
-    return this.contactForm.get('formControlConfirmPassword');
-  }
-
-  get firstName(): AbstractControl {
-    return this.contactForm.get('formControlFirstName');
-  }
-
-  get lastName(): AbstractControl {
-    return this.contactForm.get('formControlLastName');
   }
 }
