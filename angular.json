@@ -13,11 +13,8 @@
       "prefix": "fedex-test",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "./webpack.browser.config.js"
-            },
             "outputPath": "dist/apps/app-fedex",
             "index": "apps/app-fedex/src/index.html",
             "main": "apps/app-fedex/src/main.ts",
@@ -66,7 +63,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "app-fedex:build"
           },
