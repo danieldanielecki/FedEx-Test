@@ -18,7 +18,9 @@ stages:
   - build
   - test
   - staging
+  - security staging
   - production
+  - security production
 
 Build:
   artifacts:
@@ -94,6 +96,18 @@ Staging:
     - npm run deploy
   stage: staging
 
+Security Headers Staging:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
+  only:
+      - develop # Corresponding only to the development branch.
+  script:
+    - npm install -g observatory-cli
+    - observatory fedex-staging.firebaseapp.com --format report --zero
+    #- observatory fedex-staging.firebaseapp.com --min-score 100 # Ideally, I'd need 2 days more to make it. SSR is required to set up security headers, however due to Angular's Universal 'inlineStyling' will cause one of the security issues.
+  stage: security staging
+
 Production:
   dependencies:
     - Build
@@ -108,3 +122,15 @@ Production:
     - npm run deploy
   stage: production
   when: manual # It'll be run only if will be manually accepted in the CI.
+
+Security Headers Production:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  script:
+    - npm install -g observatory-cli
+    - observatory fedex-production.firebaseapp.com --format report --zero
+    #- observatory fedex-production.firebaseapp.com --min-score 100 # Ideally, I'd need 2 days more to make it. SSR is required to set up security headers, however due to Angular's Universal 'inlineStyling' will cause one of the security issues.
+  stage: security production
+  when: manual # Security Headers can be check once again manually once deployment to production will be done.
+
