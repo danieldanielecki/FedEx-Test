@@ -115,10 +115,9 @@ export class AppComponent implements OnInit {
     // Give a call to registerService to register user.
     this.registerService.registerUser(dataToBeSend, baseURL).subscribe(() => {
       Swal.fire('Success', 'You have successfuly registered!', 'success');
+      formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
+      this.contactForm.reset(); // Reset form once user will click "Register".
     });
-
-    formDirective.resetForm(); // Reset validators, i.e. to workaround #4190 (https://github.com/angular/components/issues/4190).
-    this.contactForm.reset(); // Reset form once user will click "Register".
   }
 
   /**
