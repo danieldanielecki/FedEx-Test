@@ -14,7 +14,7 @@ This is a test application for FedEx frontend case:
 - :white_check_mark: Shouldn't contain user's first or last name
 
 5. :white_check_mark: Email validation (using Angular's validator and minor custom checks)
-6. :white_check_mark Send a POST request to [https://demo-api.now.sh/users](https://demo-api.now.sh/users) in a JSON such as
+6. :white_check_mark: Send a POST request to [https://demo-api.now.sh/users](https://demo-api.now.sh/users) in a JSON such as
 
 ```
 {
