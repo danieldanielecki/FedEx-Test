@@ -1,4 +1,4 @@
-/* Custom webpack browser properties. */
+/* Custom webpack properties. */
 
 const Dotenv = require('dotenv-webpack');
 const webpackConfig = {

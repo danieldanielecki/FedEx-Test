@@ -18,7 +18,9 @@ stages:
   - build
   - test
   - staging
+  - security staging
   - production
+  - security production
 
 Build:
   artifacts:
@@ -27,7 +29,7 @@ Build:
       - dist/apps/app-fedex
     when: always
   script:
-    - npm run build:app-fedex
+    - npm run build
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
@@ -39,7 +41,7 @@ Vulnerabilities:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   stage: test
   script:
-    - npx audit-ci --low # Prevent integration with low or higher vulnerabilities, i.e. prevent all vulnerabilities.
+    - npx audit-ci --high # Prevent integration with high or higher vulnerabilities.
 
 Quality:
   except:
@@ -47,14 +49,15 @@ Quality:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   stage: test
   script:
-    - npm run format:check:app-fedex
+    - npm run format:write
+    - npm run format:check
 
 SAST:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   script:
-    - npm run lint:app-fedex
+    - npm run lint
   stage: test
 
 Unit:
@@ -62,7 +65,7 @@ Unit:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   script:
-    - npm run test:app-fedex
+    - npm run test
   stage: test
 
 E2E:
@@ -77,7 +80,7 @@ E2E:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
   image: cypress/base:10
   script:
-    - npm run e2e:app-fedex
+    - npm run e2e
   stage: test
 
 Staging:
@@ -94,6 +97,18 @@ Staging:
     - npm run deploy
   stage: staging
 
+Security Headers Staging:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
+  only:
+      - develop # Corresponding only to the development branch.
+  script:
+    - npm install -g observatory-cli
+    - observatory fedex-staging.firebaseapp.com --format report --zero
+    #- observatory fedex-staging.firebaseapp.com --min-score 100 # Ideally, I'd need 2 days more to make it. SSR is required to set up security headers, however due to Angular's Universal 'inlineStyling' will cause one of the security issues.
+  stage: security staging
+
 Production:
   dependencies:
     - Build
@@ -108,3 +123,17 @@ Production:
     - npm run deploy
   stage: production
   when: manual # It'll be run only if will be manually accepted in the CI.
+
+Security Headers Production:
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  only:
+    - master # Corresponding only to the master branch.
+  script:
+    - npm install -g observatory-cli
+    - observatory fedex-production.firebaseapp.com --format report --zero
+    #- observatory fedex-production.firebaseapp.com --min-score 100 # Ideally, I'd need 2 days more to make it. SSR is required to set up security headers, however due to Angular's Universal 'inlineStyling' will cause one of the security issues.
+  stage: security production
+  when: manual # Security Headers can be check once again manually once deployment to production will be done.
+

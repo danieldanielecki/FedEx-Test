@@ -17,6 +17,15 @@
     "app-fedex-e2e": {
       "tags": [],
       "implicitDependencies": ["app-fedex"]
+    },
+    "home": {
+      "tags": []
+    },
+    "core": {
+      "tags": []
+    },
+    "shared": {
+      "tags": []
     }
   }
 }
