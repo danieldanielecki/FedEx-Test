@@ -31,6 +31,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^9.0.0",
     "@angular/animations": "9.0.0",
     "@angular/cdk": "^9.1.0",
     "@angular/common": "9.0.0",
@@ -44,6 +45,7 @@
     "@angular/router": "9.0.0",
     "@angular/service-worker": "9.0.0",
     "@nrwl/angular": "9.0.4",
+    "agastya": "^4.2.0",
     "core-js": "^2.5.4",
     "ngx-moment": "^3.5.0",
     "rxjs": "~6.5.0",

@@ -1,3 +1,4 @@
+import Agastya from 'agastya';
 import { CommonModule } from '@angular/common';
 import {
   ErrorStateMatcher,
@@ -14,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
+
+new Agastya(String(process.env.AGASTYA_API_KEY));
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
