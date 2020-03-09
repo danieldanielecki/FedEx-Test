@@ -16,7 +16,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 
-const agastya = new Agastya(String(process.env.AGASTYA_API_KEY));
+// const agastya = new Agastya(String(process.env.AGASTYA_API_KEY)); // Cypress in GitLab CI cannot handle this.
+const agastya = new Agastya('hello-fedex-e5a9c');
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
