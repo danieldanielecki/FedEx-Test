@@ -1,14 +1,17 @@
+import { getAgastya } from '../support/app.po';
 import { getGreeting } from '../support/app.po';
 
 describe('app-fedex', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    //cy.login('my-email@something.com', 'myPassword');
-
-    // Function helper example, see `../support/app.po.ts` file
+    cy.wait(2000); // Required in order to pass the test due to the Agastya XHR request.
     getGreeting().contains('Register');
+  });
+
+  it('should have Agastya accessibility plugin', () => {
+    cy.wait(1000);
+    getAgastya();
   });
 
   it('should write first name', () => {
@@ -62,6 +65,6 @@ describe('app-fedex', () => {
       .type('Password')
       .should('have.value', 'Password');
 
-    cy.get('button').click();
+    cy.get('button[name="formControlButton"]').click();
   });
 });

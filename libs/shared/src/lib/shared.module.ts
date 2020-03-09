@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 
-new Agastya(String(process.env.AGASTYA_API_KEY));
+const agastya = new Agastya(String(process.env.AGASTYA_API_KEY));
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
