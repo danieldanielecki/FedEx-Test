@@ -1,84 +1,98 @@
 # FedexTest
 
-This project was generated using [Nx](https://nx.dev).
+This is a test application for FedEx frontend case:
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+## Requirements
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+1. :white_check_mark: SPA form
+2. :white_check_mark: First name, last name, e-mail and password
+3. :white_check_mark: All these fields are required
+4. :white_check_mark: Password validation:
 
-## Quick Start & Documentation
+- :white_check_mark: Minimum 8 characters
+- :white_check_mark: Should have lower and uppercase letters
+- :white_check_mark: Shouldn't contain user's first or last name
 
-[Nx Documentation](https://nx.dev/angular)
+5. :white_check_mark: Email validation (using Angular's validator and minor custom checks)
+6. :white_check_mark Send a POST request to [https://demo-api.now.sh/users](https://demo-api.now.sh/users) in a JSON such as
 
-[10-minute video showing all Nx features](https://nx.dev/angular/getting-started/what-is-nx)
+```
+{
+  firstName: "Thomas",
+  lastName: "Shelby",
+  email: "thomas@shelby.co.uk"
+}
+```
 
-[Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
+## Tools to use
 
-## Adding capabilities to your workspace
+1. :white_check_mark: Latest Angular and TypeScript
+2. :white_check_mark: UX/UI based on a CSS Framework (using latest Angular Material)
+3. :white_check_mark: Don't bother about old borwsers
+4. :white_check_mark: Solution is available on GitLab, here
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+## Review criteria
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+- Correctness – Is it production-ready application? Does the application do what was asked? If not, does the README explain why it is missing and/or different?
+- Code quality – Are there any code smells? Is the coding style consistent with the Angular style guide?
+- Testing - Is your logic covered with unit or integration tests?
+- UX – Is the web interface understandable and pleasing to use?
+- Documentation – Is there a README covering how to build and run your project?
+- Technical choices – Are choices of libraries, architecture etc. appropriate for the task?
 
-Below are some plugins which you can add to your workspace:
+## How to run
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+Assuming that you have installed `Node.js` and `npm` on your machine please do the following commands in the terminal to run this application locally:
 
-## Generate an application
+1. `git clone https://gitlab.com/danieldanielecki/fedex-test.git` please remember about the default `master` branch. The other branches I'm leaving you for investigation
+2. `npm install`
+3. `npm run serve` or `ng serve` or if you're using Docker `docker-compose -f "docker-compose.yml" up -d --build`
+4. Visit `localhost:4200` in your preferred browser (please don't use Internet Explorer)
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+## About
 
-> You can use any of the plugins above to generate applications as well.
+The application generally contains what was required, on top of this there are several additions:
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+1. GitFlow, as wrote the `feature` branches I'm leaving only for the reason to show it, in real projects after every merge to the `develop` branch the `feature` branches should be removed.
+2. Automated deployment to Firebase, which consits of these (automated) steps:
 
-## Generate a library
+- Build
+- Test
+  - Known vulnerabilities using `audit-ci` (`Vulnerabilities`) - that's the reason why **not** `yarn`, in most cases you can fix these simply `npm audit fix`. Unfortunately, for this case during the day of deployment one of unfeasible to fix packages got something and therefore there are something like 15 medium vulnerabilities within this app deployed.
+  - Style formatting (`Quality` in pipelines) - to keep track of consitent code
+  - Static Code Application Security Testing (`SAST` in pipelines) - basically linting
+  - Unit Testing (`Unit` in pipelines) - using `Jest`, code coverage around 90%
+  - End-to-End Testing (`E2E` in pielines) - using `Cypress`, several sample test cases
+- Staging - deployment to staging environment [https://fedex-staging.firebaseapp.com](https://fedex-staging.firebaseapp.com)
+- Mozilla Observatory to check security on the staging environment. This is just a showcase how to include this in the pipeline, to do so Server Side Rendering (SSR) with (for example) Firebase Cloud Functions is required, within this deadline it wasn't possible.
+- Production - deployment to production environment [https://fedex-production.firebaseapp.com](https://fedex-production.firebaseapp.com)
+- Mozilla Observatory to check security on the staging environment. This is just a showcase how to include this in the pipeline, to do so Server Side Rendering (SSR) with (for example) Firebase Cloud Functions is required, within this deadline it wasn't possible.
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+3. `Docker`
+4. Monorepository `Nx`
+5. Application architecture to distinguish between `CoreModule`, `SharedModule` and other (`FeatureModule`'s)
+6. Responsive Web Design using `Angular Grid Layout` (`CSS Flexbox` + `CSS Grid Layout`)
+7. `ARIA` tested `ChromeVox`
+8. `SweetAlert`'s for user information
+9. `JSDoc` for documentation of the core logic
+10. Accessibility plugin `Agastya`
+11. Progressive Web Application
 
-> You can also use any of the plugins above to generate libraries as well.
+## Lighthouse results
 
-Libraries are sharable across libraries and applications. They can be imported from `@fedex-test/mylib`.
+- Performance 80/100
+- Accessibility 100/100
+- Best Practices 100/100
+- SEO 73/100
+- Progressive Web App :white_check_mark:
 
-## Development server
+## Missing (additions)
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+What could have been improved:
 
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
+1. Server Side Rendering (SSR), e.g. using Angular Universal + Cloud Functions + NestJS
+2. Content Security Policy (SSR is requirement to do so)
+3. TypeScript's Strict Security Compiler Rules
+4. reCAPTCHA
+5. Working on Lighthouse results
+6. Working on Mozilla Observatory/Security Headers results (SSR is requirement to do so)
