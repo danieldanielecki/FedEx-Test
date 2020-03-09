@@ -15,36 +15,42 @@ describe('app-fedex', () => {
   });
 
   it('should write first name', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlFirstName"]')
       .type('Daniel')
       .should('have.value', 'Daniel');
   });
 
   it('should write last name', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlLastName"]')
       .type('Danielecki')
       .should('have.value', 'Danielecki');
   });
 
   it('should write e-mail', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlEmail"]')
       .type('daniel.danielecki@foo.com')
       .should('have.value', 'daniel.danielecki@foo.com');
   });
 
   it('should write password', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlPassword"]')
       .type('Password')
       .should('have.value', 'Password');
   });
 
   it('should write password confirmation', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlConfirmPassword"]')
       .type('Password')
       .should('have.value', 'Password');
   });
 
   it('should fill form and click register button', () => {
+    cy.wait(1000);
     cy.get('input[name="formControlFirstName"]')
       .type('Daniel')
       .should('have.value', 'Daniel');
