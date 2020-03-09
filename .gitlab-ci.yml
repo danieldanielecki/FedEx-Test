@@ -27,7 +27,7 @@ Build:
       - dist/apps/app-fedex
     when: always
   script:
-    - npm run build:app-fedex
+    - npm run build
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
@@ -47,14 +47,15 @@ Quality:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   stage: test
   script:
-    - npm run format:check:app-fedex
+    - npm run format:write
+    - npm run format:check
 
 SAST:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   script:
-    - npm run lint:app-fedex
+    - npm run lint
   stage: test
 
 Unit:
@@ -62,7 +63,7 @@ Unit:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run this job.
   script:
-    - npm run test:app-fedex
+    - npm run test
   stage: test
 
 E2E:
@@ -77,7 +78,7 @@ E2E:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
   image: cypress/base:10
   script:
-    - npm run e2e:app-fedex
+    - npm run e2e
   stage: test
 
 Staging:
