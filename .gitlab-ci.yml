@@ -127,6 +127,8 @@ Security Headers Production:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
+  only:
+    - master # Corresponding only to the master branch.
   script:
     - npm install -g observatory-cli
     - observatory fedex-production.firebaseapp.com --format report --zero
