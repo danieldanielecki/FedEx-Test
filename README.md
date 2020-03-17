@@ -1,3 +1,7 @@
+# Special note for this branch
+
+This branch is intended to showcase TypeScript's strict compiler rules and how to deal with this. For this application the case is about non-null assertion operator (`!`). This operator tells the compiler that some particular variable is not null for situations when the compiler is unable to check if that's the case or returns false positive by assuming that some variable is null/undefined.
+
 # FedexTest
 
 This is a test application for FedEx frontend case:

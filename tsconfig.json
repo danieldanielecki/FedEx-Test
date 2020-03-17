@@ -19,7 +19,12 @@
       "@fedex-test/home": ["libs/home/src/index.ts"],
       "@fedex-test/core": ["libs/core/src/index.ts"],
       "@fedex-test/shared": ["libs/shared/src/index.ts"]
-    }
+    },
+    "strict": true
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameterslink": true,
+    "strictTemplates": true
   },
   "exclude": ["node_modules", "tmp"]
 }
