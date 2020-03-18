@@ -131,6 +131,10 @@ describe('AppComponent', () => {
     confirmPasswordInput.setValue('Password');
 
     expect(contactForm).toBeTruthy();
+
+    component.onSubmit(formGroupDirective);
+
+    contactForm.reset();
   });
 
   it('should test first name input element', () => {
