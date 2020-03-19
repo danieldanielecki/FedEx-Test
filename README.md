@@ -2,9 +2,9 @@
 
 This branch purpose is only to showcase improved code coverage by adding the 2 lines of unit tests and to mention what could have been improved from unit testing. The improvements to be done have been questioned on the Stack Overflow and are as follows:
 
-- Untested 3 lines of code due to [https://stackoverflow.com/questions/60739506/typeerror-cannot-read-property-reset-of-null-angular-unit-testing-formdirec](TypeError: Cannot read property 'reset' of null for formDirective: FormGroupDirective)
-- Throw an error to CoreModule if it would be imported more than once, but then the problem is [https://stackoverflow.com/questions/60721866/angular-unit-testing-coremodule](how to unit test this)?
-- [https://stackoverflow.com/questions/60578944/angular-unit-testing-http-error-interceptors-catcherror-errorevent-error](Angular Unit Testing HTTP Error Interceptors catchError/ErrorEvent/Error)
+- Untested 3 lines of code due to [TypeError: Cannot read property 'reset' of null for formDirective: FormGroupDirective](https://stackoverflow.com/questions/60739506/typeerror-cannot-read-property-reset-of-null-angular-unit-testing-formdirec)
+- Throw an error to CoreModule if it would be imported more than once, but then the problem is [how to unit test this](https://stackoverflow.com/questions/60721866/angular-unit-testing-coremodule)?
+- [Angular Unit Testing HTTP Error Interceptors catchError/ErrorEvent/Error](https://stackoverflow.com/questions/60578944/angular-unit-testing-http-error-interceptors-catcherror-errorevent-error)
 
 # FedexTest
 
