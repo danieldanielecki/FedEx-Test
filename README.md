@@ -96,3 +96,12 @@ What could have been improved:
 4. reCAPTCHA
 5. Working on Lighthouse results
 6. Working on Mozilla Observatory/Security Headers results (SSR is requirement to do so)
+
+## Feedback
+
+Generaly very positive, what could've been improved:
+
+1. `dataToBeSend: Object` should've been an interface, in [register.service.ts](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/register.service.ts#L14)
+2. [HomeComponent](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/home.component.ts) could've been more Dump Component, like [https://dzone.com/articles/how-to-create-custom-validators-in-angular](https://dzone.com/articles/how-to-create-custom-validators-in-angular) shows
+3. `JSON.stringify(dataToBeSend)` could've been simplifed somehow by Angular's HTTP client, which is supposed to have to provide this since certain version out-of-the-box, in [register.service.ts](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/register.service.ts#L16)
+4. Looks a bit overengineered
