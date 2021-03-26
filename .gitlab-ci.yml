@@ -1,4 +1,4 @@
-image: node:alpine
+image: node:12 # Has to be used instead of "14"/"latest" until PR #175 (https://github.com/IBM/audit-ci/pull/175) won't be accepted, see details: https://github.com/IBM/audit-ci/issues/176#issuecomment-799400131.
 
 variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
@@ -78,7 +78,7 @@ E2E:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
-  image: cypress/base:10
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   script:
     - npm run e2e
   stage: test
@@ -102,7 +102,7 @@ Security Headers Staging:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   only:
-      - develop # Corresponding only to the development branch.
+    - develop # Corresponding only to the development branch.
   script:
     - npm install -g observatory-cli
     - observatory fedex-staging.firebaseapp.com --format report --zero

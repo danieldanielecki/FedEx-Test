@@ -1,4 +1,4 @@
-import { getAgastya } from '../support/app.po';
+// import { getAgastya } from '../support/app.po';
 import { getGreeting } from '../support/app.po';
 
 describe('app-fedex', () => {
@@ -9,10 +9,10 @@ describe('app-fedex', () => {
     getGreeting().contains('Register');
   });
 
-  it('should have Agastya accessibility plugin', () => {
-    cy.wait(1000);
-    getAgastya();
-  });
+  // it('should have Agastya accessibility plugin', () => {
+  //   cy.wait(1000);
+  //   getAgastya();
+  // });
 
   it('should write first name', () => {
     cy.wait(1000);

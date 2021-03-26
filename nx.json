@@ -1,14 +1,34 @@
 {
-  "npmScope": "fedex-test",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": {
       "dependencies": "*",
       "devDependencies": "*"
     },
-    "tsconfig.json": "*",
+    "tsconfig.base.json": "*",
     "tslint.json": "*",
+    ".eslintrc.json": "*",
     "nx.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "fedex-test",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "ZmYxYjBhYzYtMzYyOC00M2EyLWFhNWEtYTBkZGI0ZmQwOGZifHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
   },
   "projects": {
     "app-fedex": {
