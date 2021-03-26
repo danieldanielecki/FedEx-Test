@@ -1,4 +1,4 @@
-image: node:alpine
+image: node:latest
 
 variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
@@ -78,7 +78,7 @@ E2E:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
-  image: cypress/base:12.1.0
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   script:
     - npm run e2e
   stage: test
