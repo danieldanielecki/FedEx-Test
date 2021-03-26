@@ -63,7 +63,7 @@
     "@nrwl/tao": "11.5.2",
     "@nrwl/workspace": "11.5.2",
     "@types/jest": "26.0.8",
-    "@types/node": "12.12.38",
+    "@types/node": "^12.12.38",
     "audit-ci": "^3.1.1",
     "codelyzer": "^6.0.0",
     "cypress": "^6.8.0",

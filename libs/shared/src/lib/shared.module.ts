@@ -2,7 +2,7 @@ import Agastya from 'agastya';
 import { CommonModule } from '@angular/common';
 import {
   ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher
+  ShowOnDirtyErrorStateMatcher,
 } from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FooterComponent } from './footer/footer.component';
@@ -16,8 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 
-// const agastya = new Agastya(String(process.env.AGASTYA_API_KEY)); // Cypress in GitLab CI cannot handle this.
-const agastya = new Agastya('hello-fedex-e5a9c');
+new Agastya(String(process.env.AGASTYA_API_KEY));
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
@@ -33,7 +32,7 @@ const agastya = new Agastya('hello-fedex-e5a9c');
     MatInputModule,
     MatToolbarModule,
     MomentModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   imports: [
     CommonModule,
@@ -45,11 +44,11 @@ const agastya = new Agastya('hello-fedex-e5a9c');
     MatInputModule,
     MatToolbarModule,
     MomentModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     // Display errors instantly.
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
 })
 export class SharedModule {}
