@@ -1,4 +1,4 @@
-image: node:12
+image: node:12 # Has to be used instead of "14"/"latest" until PR #175 (https://github.com/IBM/audit-ci/pull/175) won't be accepted, see details: https://github.com/IBM/audit-ci/issues/176#issuecomment-799400131.
 
 variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
