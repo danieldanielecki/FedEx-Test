@@ -78,7 +78,7 @@ E2E:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
-  image: cypress/base:14.0.0
+  image: cypress/base:12.1.0
   script:
     - npm run e2e
   stage: test
