@@ -78,7 +78,7 @@ E2E:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
-  image: cypress/base:10
+  image: cypress/base:14.0.0
   script:
     - npm run e2e
   stage: test
@@ -102,7 +102,7 @@ Security Headers Staging:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   only:
-      - develop # Corresponding only to the development branch.
+    - develop # Corresponding only to the development branch.
   script:
     - npm install -g observatory-cli
     - observatory fedex-staging.firebaseapp.com --format report --zero
