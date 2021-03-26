@@ -1,4 +1,4 @@
-import Agastya from 'agastya';
+//import Agastya from 'agastya'; // Fails Cypress on CI.
 import { CommonModule } from '@angular/common';
 import {
   ErrorStateMatcher,
@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'ngx-moment';
 import { NgModule } from '@angular/core';
 
-new Agastya(String(process.env.AGASTYA_API_KEY));
+//new Agastya(String(process.env.AGASTYA_API_KEY));// Fails Cypress on CI.
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
