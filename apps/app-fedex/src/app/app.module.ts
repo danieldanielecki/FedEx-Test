@@ -14,8 +14,8 @@ import { environment } from '../environments/environment';
     HomeModule,
     SharedModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
-    })
-  ]
+      enabled: environment.production,
+    }),
+  ],
 })
 export class AppModule {}

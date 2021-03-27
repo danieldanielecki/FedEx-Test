@@ -44,7 +44,7 @@
             "customWebpackConfig": {
               "path": "./webpack.custom.config.js"
             },
-            "outputPath": "dist/apps/app-fedex",
+            "outputPath": "dist/app-fedex/browser",
             "index": "apps/app-fedex/src/index.html",
             "main": "apps/app-fedex/src/main.ts",
             "polyfills": "apps/app-fedex/src/polyfills.ts",
@@ -126,6 +126,53 @@
           "options": {
             "jestConfig": "apps/app-fedex/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/app-fedex/server",
+            "main": "apps/app-fedex/server.ts",
+            "tsConfig": "apps/app-fedex/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "apps/app-fedex/src/environments/environment.ts",
+                  "with": "apps/app-fedex/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "app-fedex:build",
+            "serverTarget": "app-fedex:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app-fedex:build:production",
+              "serverTarget": "app-fedex:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "app-fedex:build:production",
+            "serverTarget": "app-fedex:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
