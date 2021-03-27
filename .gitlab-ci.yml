@@ -26,10 +26,10 @@ Build:
   artifacts:
     expire_in: 1 day
     paths:
-      - dist/apps/app-fedex
+      - functions
     when: always
   script:
-    - npm run build
+    - npm run build:ssr
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.

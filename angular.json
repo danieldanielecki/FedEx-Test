@@ -44,7 +44,7 @@
             "customWebpackConfig": {
               "path": "./webpack.custom.config.js"
             },
-            "outputPath": "dist/app-fedex/browser",
+            "outputPath": "functions/dist/app-fedex/browser",
             "index": "apps/app-fedex/src/index.html",
             "main": "apps/app-fedex/src/main.ts",
             "polyfills": "apps/app-fedex/src/polyfills.ts",
@@ -131,7 +131,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/app-fedex/server",
+            "outputPath": "functions/dist/app-fedex/server",
             "main": "apps/app-fedex/server.ts",
             "tsConfig": "apps/app-fedex/tsconfig.server.json"
           },
@@ -167,9 +167,7 @@
           "options": {
             "browserTarget": "app-fedex:build:production",
             "serverTarget": "app-fedex:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
