@@ -1,12 +1,15 @@
 {
   "hosting": {
-    "public": "dist/apps/app-fedex",
+    "public": "functions/dist/app-fedex/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "function": "angularUniversalFunction",
+        "source": "**"
       }
     ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }
