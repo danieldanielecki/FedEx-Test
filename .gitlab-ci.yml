@@ -30,6 +30,7 @@ Build:
     when: always
   script:
     - npm run build:ssr
+    - mv functions/dist/app-fedex/server/main.js functions/index.js # Firebase requires `index.js` being places in `functions`.
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
