@@ -1,16 +1,16 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 /**
  * @description Validate if passwords are different.
  * @function validatePasswords
  * @param {string} passwordControlName - reference to formControlPassword of the contactForm.
  * @param {string} confirmPasswordControlName - reference to formControlConfirmPassword of the contactForm.
- * @returns {(formGroup: FormGroup) => void}
+ * @returns {(formGroup: FormGroup) => void | any}
  */
 export function validatePasswords(
   passwordControlName: string,
   confirmPasswordControlName: string
-): (formGroup: FormGroup) => void {
+): (formGroup: FormGroup) => void | any {
   return (formGroup: FormGroup) => {
     // Get values of desired controls of the form.
     const passwordControl = formGroup.controls[passwordControlName];
