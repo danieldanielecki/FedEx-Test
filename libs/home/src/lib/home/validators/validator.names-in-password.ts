@@ -6,13 +6,13 @@ import { FormGroup } from '@angular/forms';
  * @param {string} firstNameControName - reference to formControlFirstName of the contactForm.
  * @param {string} lastNameControName - reference to formControlLastName of the contactForm.
  * @param {string} passwordControlName - reference to formControlPassword of the contactForm.
- * @returns {(formGroup: FormGroup) => void}
+ * @returns {(formGroup: FormGroup) => void | any}
  */
 export function validateNamesInPasswords(
   firstNameControName: string,
   lastNameControName: string,
   passwordControlName: string
-): (formGroup: FormGroup) => void {
+): (formGroup: FormGroup) => void | any {
   {
     return (formGroup: FormGroup) => {
       // Get values of desired controls of the form.
