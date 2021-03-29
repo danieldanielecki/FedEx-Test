@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Data } from './data.model';
 import {
   FormBuilder,
   FormGroup,
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
     private registerService: RegisterService
   ) {}
 
-  public contactForm: FormGroup; // Declare variable to handle the form elements with required validators.
+  public contactForm: FormGroup = new FormGroup({}); // Declare variable to handle the form elements with required validators.
 
   ngOnInit() {
     // Create contact form with all required validators.
@@ -109,10 +110,10 @@ export class HomeComponent implements OnInit {
    */
   public onSubmit(formDirective: FormGroupDirective): void {
     const baseURL = 'https://demo-api.now.sh/users';
-    const dataToBeSend = {
-      firstName: this.contactForm.get('formControlFirstName').value,
-      lastName: this.contactForm.get('formControlLastName').value,
-      email: this.contactForm.get('formControlEmail').value,
+    const dataToBeSend: Data = {
+      firstName: this.contactForm.get('formControlFirstName')!.value,
+      lastName: this.contactForm.get('formControlLastName')!.value,
+      email: this.contactForm.get('formControlEmail')!.value,
     };
     // Give a call to registerService to register user.
     this.registerService.registerUser(dataToBeSend, baseURL).subscribe(() => {

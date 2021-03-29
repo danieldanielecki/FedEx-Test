@@ -1,4 +1,4 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 /**
  * @description Validate if passwords are different.

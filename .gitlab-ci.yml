@@ -94,7 +94,6 @@ Staging:
   only:
     - develop # Corresponding only to the development branch.
   script:
-    - npm run predeploy
     - npm run deploy:ssr
   stage: staging
 

@@ -53,7 +53,9 @@
             "assets": [
               "apps/app-fedex/src/favicon.ico",
               "apps/app-fedex/src/assets",
-              "apps/app-fedex/src/manifest.webmanifest"
+              "apps/app-fedex/src/manifest.webmanifest",
+              "apps/app-fedex/src/robots.txt",
+              "apps/app-fedex/src/sitemap.xml"
             ],
             "styles": [
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -122,9 +124,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/app-fedex"
-          ],
+          "outputs": ["coverage/apps/app-fedex"],
           "options": {
             "jestConfig": "apps/app-fedex/jest.config.js",
             "passWithNoTests": true
@@ -185,9 +185,7 @@
           "options": {
             "browserTarget": "app-fedex:build:production",
             "serverTarget": "app-fedex:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -222,9 +220,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/app-fedex-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/app-fedex-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -246,9 +242,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/home"
-          ],
+          "outputs": ["coverage/libs/home"],
           "options": {
             "jestConfig": "libs/home/jest.config.js",
             "passWithNoTests": true
@@ -273,9 +267,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/core"
-          ],
+          "outputs": ["coverage/libs/core"],
           "options": {
             "jestConfig": "libs/core/jest.config.js",
             "passWithNoTests": true
@@ -300,9 +292,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/shared"
-          ],
+          "outputs": ["coverage/libs/shared"],
           "options": {
             "jestConfig": "libs/shared/jest.config.js",
             "passWithNoTests": true
