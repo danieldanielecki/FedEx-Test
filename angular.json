@@ -122,7 +122,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/app-fedex"],
+          "outputs": [
+            "coverage/apps/app-fedex"
+          ],
           "options": {
             "jestConfig": "apps/app-fedex/jest.config.js",
             "passWithNoTests": true
@@ -133,7 +135,23 @@
           "options": {
             "outputPath": "functions/dist/app-fedex/server",
             "main": "apps/app-fedex/server.ts",
-            "tsConfig": "apps/app-fedex/tsconfig.server.json"
+            "tsConfig": "apps/app-fedex/tsconfig.server.json",
+            "externalDependencies": [
+              "firebase",
+              "@firebase/app",
+              "@firebase/analytics",
+              "@firebase/auth",
+              "@firebase/component",
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/functions",
+              "@firebase/installations",
+              "@firebase/messaging",
+              "@firebase/storage",
+              "@firebase/performance",
+              "@firebase/remote-config",
+              "@firebase/util"
+            ]
           },
           "configurations": {
             "production": {
@@ -167,10 +185,18 @@
           "options": {
             "browserTarget": "app-fedex:build:production",
             "serverTarget": "app-fedex:server:production",
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {}
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "ssr": true
           }
         }
       }
@@ -196,7 +222,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/app-fedex-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/app-fedex-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -218,7 +246,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/home"],
+          "outputs": [
+            "coverage/libs/home"
+          ],
           "options": {
             "jestConfig": "libs/home/jest.config.js",
             "passWithNoTests": true
@@ -243,7 +273,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/core"],
+          "outputs": [
+            "coverage/libs/core"
+          ],
           "options": {
             "jestConfig": "libs/core/jest.config.js",
             "passWithNoTests": true
@@ -268,7 +300,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared"],
+          "outputs": [
+            "coverage/libs/shared"
+          ],
           "options": {
             "jestConfig": "libs/shared/jest.config.js",
             "passWithNoTests": true

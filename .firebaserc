@@ -1,7 +1,11 @@
 {
-  "projects": {
-    "default": "fedex-staging",
-    "development": "fedex-staging",
-    "production": "fedex-production"
+  "targets": {
+    "fedex-production": {
+      "hosting": {
+        "app-fedex": [
+          "fedex-production"
+        ]
+      }
+    }
   }
 }
