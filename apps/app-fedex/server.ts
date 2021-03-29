@@ -8,9 +8,32 @@ import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 
+const helmet = require('helmet');
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+
+  // Security headers.
+  server.use(helmet());
+
+  // Content Seucurity Policy (CSP).
+  server.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        connectSrc: ['https://demo-api.now.sh/users'],
+        defaultSrc: [
+          "'none'", // Default policy for fallback for the other CSP fetch directives [Link of these: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src]: disallows everything.
+        ],
+        fontSrc: ['https://fonts.gstatic.com'],
+        imgSrc: ["'self'"],
+        manifestSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    })
+  );
+
   const distFolder = join(process.cwd(), 'functions/dist/app-fedex/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
