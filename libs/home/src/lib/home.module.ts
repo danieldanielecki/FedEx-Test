@@ -12,7 +12,7 @@ import { SharedModule } from '@fedex-test/shared';
   providers: [
     // HTTP Interceptors.
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    RegisterService
-  ]
+    RegisterService,
+  ],
 })
 export class HomeModule {}

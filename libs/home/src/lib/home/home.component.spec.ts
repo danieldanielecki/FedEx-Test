@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   AbstractControl,
   FormGroupDirective,
-  ControlContainer
+  ControlContainer,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -32,18 +32,18 @@ describe('AppComponent', () => {
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
       ],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
-          multi: true
+          multi: true,
         },
         { provide: ControlContainer, useValue: formGroupDirective },
         FormGroupDirective,
-        RegisterService
-      ]
+        RegisterService,
+      ],
     }).compileComponents();
   }));
 
@@ -422,24 +422,6 @@ describe('AppComponent', () => {
       'PasswordPasswordPasswordPasswordPasswordPasswordPasswordPasswordPasswordPassword'
     );
     expect(confirmPasswordInput.errors).toBeTruthy();
-  });
-
-  it('should match password and confirm password', () => {
-    const passwordInput: AbstractControl =
-      component.contactForm.controls.formControlPassword;
-    passwordInput.setValue('Password');
-
-    const confirmPasswordInput: AbstractControl =
-      component.contactForm.controls.formControlConfirmPassword;
-    confirmPasswordInput.setValue('Password');
-
-    expect(passwordInput.errors).toBeNull();
-    expect(confirmPasswordInput.errors).toBeNull();
-
-    passwordInput.setValue('Password');
-    confirmPasswordInput.setValue('Nodsassword');
-
-    expect(confirmPasswordInput.errors.passwordMismatch).toBeTruthy();
   });
 
   it('should show error on first name in password', () => {

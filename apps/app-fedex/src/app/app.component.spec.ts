@@ -16,8 +16,8 @@ describe('AppComponent', () => {
         BrowserAnimationsModule,
         HomeModule,
         HttpClientTestingModule,
-        SharedModule
-      ]
+        SharedModule,
+      ],
     }).compileComponents();
   }));
 
@@ -26,9 +26,9 @@ describe('AppComponent', () => {
     Object.defineProperty(window, 'matchMedia', {
       value: jest.fn(() => {
         return {
-          matches: true
+          matches: true,
         };
-      })
+      }),
     });
   });
 

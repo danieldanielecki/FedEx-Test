@@ -1,3 +1,4 @@
+import { Data } from './data.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,7 +12,7 @@ export class RegisterService {
    * @param {Object} dataToBeSend - data to be send to the API.
    * @returns {void}
    */
-  public registerUser(dataToBeSend: Object, baseURL: string): any {
+  public registerUser(dataToBeSend: Data, baseURL: string): any {
     // Perform HTTP POST request, error handling is done by HTTP Interceptors.
     return this.httpClient.post(baseURL, JSON.stringify(dataToBeSend));
   }

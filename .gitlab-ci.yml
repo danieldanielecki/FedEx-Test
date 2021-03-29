@@ -1,4 +1,4 @@
-image: node:alpine
+image: node:12 # Has to be used instead of "14"/"latest" until PR #175 (https://github.com/IBM/audit-ci/pull/175) won't be accepted, see details: https://github.com/IBM/audit-ci/issues/176#issuecomment-799400131.
 
 variables:
   npm_config_cache: '$CI_PROJECT_DIR/.npm'
@@ -26,10 +26,10 @@ Build:
   artifacts:
     expire_in: 1 day
     paths:
-      - dist/apps/app-fedex
+      - functions/dist/app-fedex
     when: always
   script:
-    - npm run build
+    - npm run build:ssr
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
@@ -41,7 +41,7 @@ Vulnerabilities:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   stage: test
   script:
-    - npx audit-ci --high # Prevent integration with high or higher vulnerabilities.
+    - npx audit-ci # Don't prevent any vulnerabilities due to requirements for Cloud Functions for Firebase to work properly with specific versions of its packages.
 
 Quality:
   except:
@@ -78,7 +78,7 @@ E2E:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/
-  image: cypress/base:10
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   script:
     - npm run e2e
   stage: test
@@ -94,7 +94,7 @@ Staging:
   only:
     - develop # Corresponding only to the development branch.
   script:
-    - npm run deploy
+    - npm run deploy:ssr
   stage: staging
 
 Security Headers Staging:
@@ -102,7 +102,7 @@ Security Headers Staging:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   only:
-      - develop # Corresponding only to the development branch.
+    - develop # Corresponding only to the development branch.
   script:
     - npm install -g observatory-cli
     - observatory fedex-staging.firebaseapp.com --format report --zero
@@ -120,7 +120,7 @@ Production:
   only:
     - master # Corresponding only to the master branch.
   script:
-    - npm run deploy
+    - npm run deploy:ssr
   stage: production
   when: manual # It'll be run only if will be manually accepted in the CI.
 
