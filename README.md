@@ -49,11 +49,28 @@ Assuming that you have installed `Node.js` and `npm` on your machine please do t
 3. `npm run serve` or `ng serve` or if you're using Docker `docker-compose -f "docker-compose.yml" up -d --build`
 4. Visit `localhost:4200` in your preferred browser (please don't use Internet Explorer)
 
+### Server-Side Rendering (SSR) locally using ng
+
+1. `git clone https://gitlab.com/danieldanielecki/fedex-test.git` please remember about the default `master` branch. The other branches I'm leaving you for investigation
+2. `npm install`
+3. `npm run dev:ssr`
+4. Visit `localhost:4200` in your preferred browser (please don't use Internet Explorer)
+
+### Server-Side Rendering (SSR) locally using Node
+
+1. `git clone https://gitlab.com/danieldanielecki/fedex-test.git` please remember about the default `master` branch. The other branches I'm leaving you for investigation
+2. `npm install`
+3. `npm run build:ssr`
+4. `npm run serve:ssr`
+5. Visit `localhost:4000` in your preferred browser (please don't use Internet Explorer)
+
+Disclaimer: the deployed application is takes an advantage of `Cloud Functions for Firebase` to render SSR.
+
 ## About
 
 The application generally contains what was required, on top of this there are several additions:
 
-1. GitFlow, as wrote the `feature` branches I'm leaving only for the reason to show it, in real projects after every merge to the `develop` branch the `feature` branches should be removed.
+1. GitHub Flow-like, as wrote the `feature` branches I'm leaving only for the reason to show it, in real projects after every merge to the `develop` branch the `feature` branches should be removed.
 2. Automated deployment to Firebase, which consits of these (automated) steps:
 
 - Build
@@ -68,6 +85,8 @@ The application generally contains what was required, on top of this there are s
 - Production - deployment to production environment [https://fedex-production.firebaseapp.com](https://fedex-production.firebaseapp.com)
 - Mozilla Observatory to check security on the staging environment. This is just a showcase how to include this in the pipeline, to do so Server Side Rendering (SSR) with (for example) Firebase Cloud Functions is required, within this deadline it wasn't possible.
 
+Update 29.03.2021: unforuntately, to have working `SSR` using `Cloud Functions for Firebase` some changes have been introduced after upgrading the project. Now, the SSR has been added, but `ng deploy` (new way of deploying to `Firebase`) doesn't work with CI systems. Read more in [Issue#2523](https://github.com/angular/angularfire/issues/2523) and [PR#2327](https://github.com/angular/angularfire/pull/2327).
+
 3. `Docker`
 4. Monorepository `Nx`
 5. Application architecture to distinguish between `CoreModule`, `SharedModule` and other (`FeatureModule`'s)
@@ -77,31 +96,19 @@ The application generally contains what was required, on top of this there are s
 9. `JSDoc` for documentation of the core logic
 10. Accessibility plugin `Agastya`
 11. Progressive Web Application
+12. (New) Angular Universal/SSR using `Cloud Functions for Firebase` on deployment, or locally as described in "How to run"
+13. (New) Content Security Policy (CSP)
+14. (New) TypeScript's Strict Security Compiler Rules, more than just `ng new myProject --strict`, source: [my thesis, section 4.2.2. Compilers Rules, pages 34 - 36](https://www.utupub.fi/bitstream/handle/10024/148335/Master%20of%20Science%20Technology%20Thesis%20-%20Daniel%20Danielecki.pdf)
+15. (New) `robots.txt` and `sitemap.xml` included
 
 ## Lighthouse results
 
-- Performance 80/100
+- Performance 81/100
 - Accessibility 100/100
-- Best Practices 100/100
-- SEO 73/100
+- Best Practices 93/100
+- SEO 83/100
 - Progressive Web App :white_check_mark:
 
-## Missing (additions)
+## Not working
 
-What could have been improved:
-
-1. Server Side Rendering (SSR), e.g. using Angular Universal + Cloud Functions + NestJS
-2. Content Security Policy (SSR is requirement to do so)
-3. TypeScript's Strict Security Compiler Rules
-4. reCAPTCHA
-5. Working on Lighthouse results
-6. Working on Mozilla Observatory/Security Headers results (SSR is requirement to do so)
-
-## Feedback
-
-Generaly very positive, what could've been improved:
-
-1. `dataToBeSend: Object` should've been an interface, in [register.service.ts](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/register.service.ts#L14)
-2. [HomeComponent](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/home.component.ts) could've been more Dump Component for (Custom) Validators, like [https://dzone.com/articles/how-to-create-custom-validators-in-angular](https://dzone.com/articles/how-to-create-custom-validators-in-angular) shows
-3. `JSON.stringify(dataToBeSend)` could've been simplifed somehow by Angular's HTTP client, which is supposed to have to provide this since certain version out-of-the-box, in [register.service.ts](https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/register.service.ts#L16)
-4. Looks a bit overengineered
+For some reason `validator.names-in-password.spec.ts` (renamed for `.txt` due to pre-SSR pipelines) having similar logic to `validator.passwords.spec.ts` fails. I've left `console.log(formGroup);` for you to check it out if that's also the case.
