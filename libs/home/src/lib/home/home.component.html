@@ -46,25 +46,27 @@
           <!-- Error handling. -->
           <mat-error
             *ngIf="
-              contactForm.get('formControlFirstName').hasError('maxlength')
+              contactForm.get('formControlFirstName')!.hasError('maxlength')
             "
           >
             First name is <strong>above 64 characters</strong> and looks fake.
           </mat-error>
           <mat-error
             *ngIf="
-              contactForm.get('formControlFirstName').hasError('minlength')
+              contactForm.get('formControlFirstName')!.hasError('minlength')
             "
           >
             First name is <strong>below 2 characters</strong> and looks fake.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlFirstName').hasError('required')"
+            *ngIf="
+              contactForm.get('formControlFirstName')!.hasError('required')
+            "
           >
             First name is <strong>required</strong>.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlFirstName').hasError('pattern')"
+            *ngIf="contactForm.get('formControlFirstName')!.hasError('pattern')"
           >
             Please use only <strong>letters</strong>.
           </mat-error>
@@ -86,22 +88,26 @@
           <mat-hint>Write your last name.</mat-hint>
           <!-- Error handling. -->
           <mat-error
-            *ngIf="contactForm.get('formControlLastName').hasError('maxlength')"
+            *ngIf="
+              contactForm.get('formControlLastName')!.hasError('maxlength')
+            "
           >
             Last name is <strong>above 64 characters</strong> and looks fake.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlLastName').hasError('minlength')"
+            *ngIf="
+              contactForm.get('formControlLastName')!.hasError('minlength')
+            "
           >
             Last name is <strong>below 2 characters</strong> and looks fake.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlLastName').hasError('required')"
+            *ngIf="contactForm.get('formControlLastName')!.hasError('required')"
           >
             Last name is <strong>required</strong>.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlLastName').hasError('pattern')"
+            *ngIf="contactForm.get('formControlLastName')!.hasError('pattern')"
           >
             Please use only <strong>letters</strong>.
           </mat-error>
@@ -123,22 +129,22 @@
           <mat-hint>Provide valid email address.</mat-hint>
           <!-- Error handling. -->
           <mat-error
-            *ngIf="contactForm.get('formControlEmail').hasError('email')"
+            *ngIf="contactForm.get('formControlEmail')!.hasError('email')"
           >
             This is an <strong>invalid</strong> email address.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlEmail').hasError('maxlength')"
+            *ngIf="contactForm.get('formControlEmail')!.hasError('maxlength')"
           >
             Email is <strong>above 64 characters</strong> and looks fake.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlEmail').hasError('minlength')"
+            *ngIf="contactForm.get('formControlEmail')!.hasError('minlength')"
           >
             Email should have <strong>at least 6 characters</strong>.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlEmail').hasError('required')"
+            *ngIf="contactForm.get('formControlEmail')!.hasError('required')"
           >
             Email is <strong>required</strong>.
           </mat-error>
@@ -161,7 +167,9 @@
           <!-- Error handling. -->
           <mat-error
             *ngIf="
-              contactForm.get('formControlPassword').hasError('namesInPassword')
+              contactForm
+                .get('formControlPassword')!
+                .hasError('namesInPassword')
             "
           >
             Password
@@ -169,23 +177,27 @@
             contain your first or last name.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlPassword').hasError('maxlength')"
+            *ngIf="
+              contactForm.get('formControlPassword')!.hasError('maxlength')
+            "
           >
             Password <strong>above 64 characters</strong> it too difficult to
             remember.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlPassword').hasError('minlength')"
+            *ngIf="
+              contactForm.get('formControlPassword')!.hasError('minlength')
+            "
           >
             Password <strong>below 8 characters</strong> is unsafe.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlPassword').hasError('required')"
+            *ngIf="contactForm.get('formControlPassword')!.hasError('required')"
           >
             Password is <strong>required</strong>.
           </mat-error>
           <mat-error
-            *ngIf="contactForm.get('formControlPassword').hasError('pattern')"
+            *ngIf="contactForm.get('formControlPassword')!.hasError('pattern')"
           >
             Password should have between <strong>8 and 64 letters</strong>,
             contain <strong>at least 1 lower case letter</strong> and
@@ -209,7 +221,7 @@
           <mat-hint>Confirm your password.</mat-hint>
           <!-- Error handling. -->
           <mat-error
-            *ngIf="!contactForm.get('formControlConfirmPassword').valid"
+            *ngIf="!contactForm.get('formControlConfirmPassword')!.valid"
           >
             Password confirmation <strong>must match password</strong>.
           </mat-error>
