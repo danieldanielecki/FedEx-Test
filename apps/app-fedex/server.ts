@@ -8,12 +8,10 @@ import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 
-import * as functions from 'firebase-functions';
-
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/app-fedex/browser');
+  const distFolder = join(process.cwd(), 'functions/dist/app-fedex/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
@@ -46,8 +44,6 @@ export function app(): express.Express {
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
-
-  exports.angularUniversalFunction = functions.https.onRequest(<any>server);
 
   return server;
 }

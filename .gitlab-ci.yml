@@ -30,11 +30,10 @@ Build:
     when: always
   script:
     - npm run build:ssr
-    - mv functions/dist/app-fedex/server/main.js functions/index.js # Firebase requires `index.js` being places in `functions`.
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
-  stage: build
+  stage: build:ssr
 
 Vulnerabilities:
   except:
@@ -42,7 +41,7 @@ Vulnerabilities:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
   stage: test
   script:
-    - npx audit-ci --high # Prevent integration with high or higher vulnerabilities.
+    - npx audit-ci # Don't prevent any vulnerabilities due to requirements for Cloud Functions for Firebase to work properly with specific versions of its packages.
 
 Quality:
   except:
@@ -95,7 +94,7 @@ Staging:
   only:
     - develop # Corresponding only to the development branch.
   script:
-    - npm run deploy
+    - npm run deploy:ssr
   stage: staging
 
 Security Headers Staging:
@@ -121,7 +120,7 @@ Production:
   only:
     - master # Corresponding only to the master branch.
   script:
-    - npm run deploy
+    - npm run deploy:ssr
   stage: production
   when: manual # It'll be run only if will be manually accepted in the CI.
 
