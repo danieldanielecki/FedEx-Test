@@ -31,7 +31,7 @@
     "dev:ssr": "ng run app-fedex:serve-ssr",
     "serve:ssr": "node functions/dist/app-fedex/server/main.js",
     "build:ssr": "ng build --prod && ng run app-fedex:server:production",
-    "deploy:ssr": "ng deploy --token=1//091e2VVAViPjVCgYIARAAGAkSNwF-L9IrSXSYjF2eHuQqzKnh84XOfK8js_j2Jr8JazqoGr3nQNa6x6UZ3aGVXriSqw6zviYQAvo",
+    "deploy:ssr": "ng deploy --token $ACCESS_TOKEN_FIREBASE",
     "prerender": "ng run app-fedex:prerender"
   },
   "private": true,
