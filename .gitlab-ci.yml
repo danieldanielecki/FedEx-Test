@@ -33,7 +33,7 @@ Build:
   except:
     variables:
       - $CI_COMMIT_MESSAGE =~ /skip-ci/ # Add into commit "skip-ci" and it won't run job.
-  stage: build:ssr
+  stage: build
 
 Vulnerabilities:
   except:
