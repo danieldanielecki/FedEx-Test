@@ -31,7 +31,7 @@
     "dev:ssr": "ng run app-fedex:serve-ssr",
     "serve:ssr": "node functions/dist/app-fedex/server/main.js",
     "build:ssr": "ng build --prod && ng run app-fedex:server:production",
-    "deploy:ssr": "ng deploy",
+    "deploy:ssr": "ng deploy --token=1//091e2VVAViPjVCgYIARAAGAkSNwF-L9IrSXSYjF2eHuQqzKnh84XOfK8js_j2Jr8JazqoGr3nQNa6x6UZ3aGVXriSqw6zviYQAvo",
     "prerender": "ng run app-fedex:prerender"
   },
   "private": true,
@@ -57,6 +57,7 @@
     "core-js": "^2.5.4",
     "express": "^4.15.2",
     "firebase": "^7.0 || ^8.0",
+    "helmet": "^4.4.1",
     "ngx-moment": "^5.0.0",
     "rxjs": "~6.6.6",
     "sweetalert2": "^10.15.6",
