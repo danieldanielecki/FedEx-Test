@@ -1,12 +1,5 @@
 {
   "targets": {
-    "fedex-staging": {
-      "hosting": {
-        "app-fedex": [
-          "fedex-staging"
-        ]
-      }
-    },
     "fedex-production": {
       "hosting": {
         "app-fedex": [

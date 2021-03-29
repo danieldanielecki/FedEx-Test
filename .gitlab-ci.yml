@@ -26,7 +26,7 @@ Build:
   artifacts:
     expire_in: 1 day
     paths:
-      - functions
+      - functions/dist/app-fedex
     when: always
   script:
     - npm run build:ssr
