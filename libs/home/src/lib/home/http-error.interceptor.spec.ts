@@ -2,11 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterService } from './register.service';
-import Swal from 'sweetalert2';
 
 describe('HttpErrorInterceptor', () => {
   let httpErrorInterceptor: HttpErrorInterceptor;
@@ -21,9 +20,9 @@ describe('HttpErrorInterceptor', () => {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     })
   );
 
@@ -47,7 +46,7 @@ describe('HttpErrorInterceptor', () => {
     const fakeDataToBeSend = {
       firstName: 'Daniel',
       lastName: 'Danielecki',
-      email: 'daniel.danielecki@foo.com'
+      email: 'daniel.danielecki@foo.com',
     };
 
     jest.spyOn(window, 'alert').mockImplementation(() => {}); // Note: window.alert = jest.fn() works too, but it contaminates other tests, therefore try to avoid it.
