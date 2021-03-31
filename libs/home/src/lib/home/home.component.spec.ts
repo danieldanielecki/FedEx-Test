@@ -288,7 +288,7 @@ describe('AppComponent', () => {
   it('should show first name error', () => {
     const firstNameInput: AbstractControl =
       component.contactForm.controls.formControlFirstName;
-    expect(firstNameInput.errors.required).toBeTruthy();
+    expect(firstNameInput.errors!.required).toBeTruthy();
 
     firstNameInput.setValue('Daniel');
     expect(firstNameInput.errors).toBeNull();
@@ -320,7 +320,7 @@ describe('AppComponent', () => {
   it('should show last name error', () => {
     const lastNameInput: AbstractControl =
       component.contactForm.controls.formControlLastName;
-    expect(lastNameInput.errors.required).toBeTruthy();
+    expect(lastNameInput.errors!.required).toBeTruthy();
 
     lastNameInput.setValue('Danielecki');
     expect(lastNameInput.errors).toBeNull();
@@ -352,7 +352,7 @@ describe('AppComponent', () => {
   it('should show email error', () => {
     const emailInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
-    expect(emailInput.errors.required).toBeTruthy();
+    expect(emailInput.errors!.required).toBeTruthy();
 
     emailInput.setValue('daniel.danielecki@foo.com');
     expect(emailInput.errors).toBeNull();
@@ -375,7 +375,7 @@ describe('AppComponent', () => {
   it('should show password error', () => {
     const passwordInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
-    expect(passwordInput.errors.required).toBeTruthy();
+    expect(passwordInput.errors!.required).toBeTruthy();
 
     passwordInput.setValue('password');
     expect(passwordInput.errors).toBeTruthy();
@@ -401,7 +401,7 @@ describe('AppComponent', () => {
   it('should show confirm password error', () => {
     const confirmPasswordInput: AbstractControl =
       component.contactForm.controls.formControlEmail;
-    expect(confirmPasswordInput.errors.required).toBeTruthy();
+    expect(confirmPasswordInput.errors!.required).toBeTruthy();
 
     confirmPasswordInput.setValue('password');
     expect(confirmPasswordInput.errors).toBeTruthy();
@@ -433,10 +433,10 @@ describe('AppComponent', () => {
       component.contactForm.controls.formControlPassword;
     passwordInput.setValue('Danielecki');
 
-    expect(passwordInput.errors.namesInPassword).toBeTruthy();
+    expect(passwordInput.errors!.namesInPassword).toBeTruthy();
 
     firstNameInput.setValue('daniel');
-    expect(passwordInput.errors.namesInPassword).toBeTruthy();
+    expect(passwordInput.errors!.namesInPassword).toBeTruthy();
   });
 
   it('should show error on last name in password', () => {
@@ -448,10 +448,10 @@ describe('AppComponent', () => {
       component.contactForm.controls.formControlPassword;
     passwordInput.setValue('dDanielecki');
 
-    expect(passwordInput.errors.namesInPassword).toBeTruthy();
+    expect(passwordInput.errors!.namesInPassword).toBeTruthy();
 
     lastNameInput.setValue('daniel');
-    expect(passwordInput.errors.namesInPassword).toBeTruthy();
+    expect(passwordInput.errors!.namesInPassword).toBeTruthy();
   });
 
   it('should test empty inputs to throw required errors', () => {
@@ -461,26 +461,26 @@ describe('AppComponent', () => {
     const firstNameInput: AbstractControl =
       contactForm.controls.formControlFirstName;
     firstNameInput.setValue('');
-    expect(firstNameInput.errors.required).toBeTruthy();
+    expect(firstNameInput.errors!.required).toBeTruthy();
 
     const lastNameInput: AbstractControl =
       contactForm.controls.formControlLastName;
     lastNameInput.setValue('');
-    expect(lastNameInput.errors.required).toBeTruthy();
+    expect(lastNameInput.errors!.required).toBeTruthy();
 
     const emailInput: AbstractControl = contactForm.controls.formControlEmail;
     emailInput.setValue('');
-    expect(emailInput.errors.required).toBeTruthy();
+    expect(emailInput.errors!.required).toBeTruthy();
 
     const passwordInput: AbstractControl =
       contactForm.controls.formControlPassword;
     passwordInput.setValue('');
-    expect(passwordInput.errors.required).toBeTruthy();
+    expect(passwordInput.errors!.required).toBeTruthy();
 
     const confirmPasswordInput: AbstractControl =
       contactForm.controls.formControlConfirmPassword;
     confirmPasswordInput.setValue('');
-    expect(confirmPasswordInput.errors.required).toBeTruthy();
+    expect(confirmPasswordInput.errors!.required).toBeTruthy();
 
     expect(contactForm.valid).toBeFalsy();
   });
