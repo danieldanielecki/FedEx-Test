@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { validatePasswords } from './validator.passwords';
 
 describe('validatePasswords', () => {
@@ -12,7 +12,10 @@ describe('validatePasswords', () => {
         [passwordControlName]: new FormControl(),
         [confirmPasswordControlName]: new FormControl(),
       },
-      validatePasswords(passwordControlName, confirmPasswordControlName)
+      validatePasswords(
+        passwordControlName,
+        confirmPasswordControlName
+      ) as ValidatorFn
     );
   });
 
@@ -21,8 +24,7 @@ describe('validatePasswords', () => {
       [passwordControlName]: 'Password',
       [confirmPasswordControlName]: 'Password',
     });
-    console.log(formGroup);
-    expect(formGroup.get(confirmPasswordControlName).valid).toBe(true);
+    expect(formGroup.get(confirmPasswordControlName)!.valid).toBe(true);
   });
 
   it('should has "passwordMismatch" error if passwords do not match', () => {
@@ -32,7 +34,7 @@ describe('validatePasswords', () => {
     });
 
     expect(
-      formGroup.get(confirmPasswordControlName).hasError('passwordMismatch')
+      formGroup.get(confirmPasswordControlName)!.hasError('passwordMismatch')
     ).toBe(true);
   });
 });
