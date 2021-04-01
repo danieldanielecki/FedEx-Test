@@ -97,7 +97,7 @@ Update 29.03.2021: unforuntately, to have working `SSR` using `Cloud Functions f
 10. Accessibility plugin `Agastya`
 11. Progressive Web Application
 12. (New) Angular Universal/SSR using `Cloud Functions for Firebase` on deployment, or locally as described in "How to run"
-13. (New) Content Security Policy (CSP)
+13. (New) Content Security Policy (CSP) with Security Headers
 14. (New) TypeScript's Strict Security Compiler Rules, more than just `ng new myProject --strict`, source: [my thesis, section 4.2.2. Compilers Rules, pages 34 - 36](https://www.utupub.fi/bitstream/handle/10024/148335/Master%20of%20Science%20Technology%20Thesis%20-%20Daniel%20Danielecki.pdf)
 15. (New) `robots.txt` and `sitemap.xml` included
 
@@ -108,7 +108,3 @@ Update 29.03.2021: unforuntately, to have working `SSR` using `Cloud Functions f
 - Best Practices 93/100
 - SEO 83/100
 - Progressive Web App :white_check_mark:
-
-## Not working
-
-For some reason `validator.names-in-password.spec.ts` (renamed for `.txt` due to pre-SSR pipelines) having similar logic to `validator.passwords.spec.ts` fails. I've left `console.log(formGroup);` for you to check it out if that's also the case.
