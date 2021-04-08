@@ -111,4 +111,4 @@ Update 29.03.2021: unfortunately, to have working `SSR` using `Cloud Functions f
 
 ## Vulnerabilities remark
 
-Vulnerabilities could've been removed to 1 low if SSR wouldn't be enabled. `Cloud Functions for Firebase` are known of causing quite many turbulences to have it working. Hence, a specific version of `firebase-tools` was required.
+Vulnerabilities could've been removed if SSR wouldn't be enabled. `Cloud Functions for Firebase` are known of causing quite many turbulences to have it working. Hence, a specific versions of `firebase-admin` and `firebase-tools` packages were required. From security point of view, it has introduced some vulnerabilities. That's part of `devDependencies` though, so theoretically in the deployed production-ready bundle it 
