@@ -85,7 +85,7 @@ The application generally contains what was required, on top of this there are s
 - Production - deployment to production environment [https://fedex-production.firebaseapp.com](https://fedex-production.firebaseapp.com)
 - Mozilla Observatory to check security on the staging environment. This is just a showcase how to include this in the pipeline, to do so Server Side Rendering (SSR) with (for example) Firebase Cloud Functions is required, within this deadline it wasn't possible.
 
-Update 29.03.2021: unforuntately, to have working `SSR` using `Cloud Functions for Firebase` some changes have been introduced after upgrading the project. Now, the SSR has been added, but `ng deploy` (new way of deploying to `Firebase`) doesn't work with CI systems. Read more in [Issue#2523](https://github.com/angular/angularfire/issues/2523) and [PR#2327](https://github.com/angular/angularfire/pull/2327).
+Update 29.03.2021: unfortunately, to have working `SSR` using `Cloud Functions for Firebase` some changes have been introduced after upgrading the project. Now, the SSR has been added, but `ng deploy` (new way of deploying to `Firebase`) doesn't work with CI systems. Read more in [Issue#2523](https://github.com/angular/angularfire/issues/2523) and [PR#2327](https://github.com/angular/angularfire/pull/2327).
 
 3. `Docker`
 4. Monorepository `Nx`
@@ -108,3 +108,7 @@ Update 29.03.2021: unforuntately, to have working `SSR` using `Cloud Functions f
 - Best Practices 93/100
 - SEO 83/100
 - Progressive Web App :white_check_mark:
+
+## Vulnerabilities remark
+
+1. Vulnerabilities could've been removed to 1 low if SSR wouldn't be enabled. `Cloud Functions for Firebase` are known of causing quite many turbulences to have it working. Hence, a specific version of `firebase-tools` was required.
