@@ -112,3 +112,8 @@ Update 29.03.2021: unfortunately, to have working `SSR` using `Cloud Functions f
 ## Vulnerabilities remark
 
 Vulnerabilities could've been removed if SSR wouldn't be enabled. `Cloud Functions for Firebase` are known of causing quite many turbulences to have it working. Hence, a specific versions of `firebase-admin` and `firebase-tools` packages were required. From security point of view, it has introduced some vulnerabilities. That's part of `devDependencies` though, so theoretically in the deployed production-ready bundle it 
+
+## Feedback
+
+1. One test is without `expect` https://gitlab.com/danieldanielecki/fedex-test/-/blob/master/libs/home/src/lib/home/validators/validator.names-in-password.spec.ts#L25-32
+2. Validation could've been done in less naive way without if/else, but in some kind of regular expressions + `concat` combination
